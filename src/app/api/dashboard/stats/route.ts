@@ -1,0 +1,62 @@
+import { createClient } from '@/lib/supabase/server'
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function GET(req: NextRequest) {
+  const supabase = await createClient()
+  const { searchParams } = new URL(req.url)
+
+  const año = searchParams.get('año')
+  const departamento = searchParams.get('departamento')
+  const programa = searchParams.get('programa')
+  const tipo_evento = searchParams.get('tipo_evento')
+
+  let query = supabase.from('eventos').select('*')
+
+  if (año) query = query.eq('año', parseInt(año))
+  if (departamento) query = query.eq('departamento', departamento)
+  if (programa) query = query.eq('programa', programa)
+  if (tipo_evento) query = query.eq('tipo_evento', tipo_evento)
+
+  const { data, error } = await query
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  if (!data || data.length === 0) {
+    return NextResponse.json({
+      eventos: [],
+      kpis: {
+        total_casos: 0,
+        top_departamento: 'N/A',
+        variacion_anual: 0,
+        total_registros: 0,
+      },
+    })
+  }
+
+  const total_casos = data.reduce((acc, e) => acc + (e.casos || 0), 0)
+  const total_registros = data.length
+
+  const byDept = data.reduce<Record<string, number>>((acc, e) => {
+    acc[e.departamento] = (acc[e.departamento] || 0) + e.casos
+    return acc
+  }, {})
+  const top_departamento =
+    Object.entries(byDept).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A'
+
+  const currentYear = año ? parseInt(año) : new Date().getFullYear()
+  const currentCasos = data
+    .filter((e) => e.año === currentYear)
+    .reduce((acc, e) => acc + e.casos, 0)
+  const prevCasos = data
+    .filter((e) => e.año === currentYear - 1)
+    .reduce((acc, e) => acc + e.casos, 0)
+  const variacion_anual =
+    prevCasos > 0
+      ? Math.round(((currentCasos - prevCasos) / prevCasos) * 100)
+      : 0
+
+  return NextResponse.json({
+    eventos: data,
+    kpis: { total_casos, top_departamento, variacion_anual, total_registros },
+  })
+}
