@@ -11,7 +11,7 @@ const programs = [
 export function Hero() {
   return (
     <section
-      className="relative overflow-hidden flex flex-col min-h-screen"
+      className="relative overflow-hidden flex flex-col lg:h-screen"
       style={{ background: '#0F2D3F' }}
     >
       {/* fondo split solo en desktop — cubre exactamente la altura del contenido */}
