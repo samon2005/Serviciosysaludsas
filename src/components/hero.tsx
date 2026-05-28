@@ -11,15 +11,10 @@ const programs = [
 export function Hero() {
   return (
     <section
-      className="relative overflow-hidden"
-      style={{
-        minHeight: '88vh',
-        display: 'flex',
-        flexDirection: 'column',
-        background: '#0F2D3F',
-      }}
+      className="relative overflow-hidden flex flex-col"
+      style={{ background: '#0F2D3F' }}
     >
-      {/* fondo split solo en desktop */}
+      {/* fondo split solo en desktop — cubre exactamente la altura del contenido */}
       <div
         className="absolute inset-0 pointer-events-none hidden lg:block"
         style={{ background: 'linear-gradient(to right, #0F2D3F 58%, #ffffff 58%)' }}
@@ -33,7 +28,7 @@ export function Hero() {
       }} />
 
       {/* contenido principal */}
-      <div className="relative flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row py-16 lg:py-0">
+      <div className="relative max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row lg:min-h-screen py-16 lg:py-0">
 
         {/* ── IZQUIERDA — texto ── */}
         <div className="flex flex-col justify-center lg:w-[58%] lg:pr-20 lg:py-24">
@@ -110,7 +105,7 @@ export function Hero() {
         </div>
 
         {/* ── DERECHA — panel blanco (solo desktop) ── */}
-        <div className="hidden lg:flex lg:w-[42%] flex-col justify-center pl-20 pr-6 py-20">
+        <div className="hidden lg:flex lg:w-[42%] flex-col justify-center pl-20 pr-6 py-24">
 
           {/* Número grande decorativo */}
           <div className="mb-8 relative">
