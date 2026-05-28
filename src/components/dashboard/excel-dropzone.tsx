@@ -1,6 +1,7 @@
 'use client'
 import { useState, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
+import { FolderOpen } from 'lucide-react'
 
 interface Props {
   onSuccess: (rows: number) => void
@@ -77,7 +78,9 @@ export function ExcelDropzone({ onSuccess }: Props) {
             if (f) handleFile(f)
           }}
         />
-        <div className="text-5xl mb-4">📂</div>
+        <div className="flex justify-center mb-4">
+          <FolderOpen size={42} style={{ color: '#A0AEC0' }} strokeWidth={1} />
+        </div>
         {file ? (
           <div>
             <p className="font-semibold text-gray-700">{file.name}</p>

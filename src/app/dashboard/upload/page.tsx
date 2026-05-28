@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { ExcelDropzone } from '@/components/dashboard/excel-dropzone'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { CheckCircle2 } from 'lucide-react'
 
 export default function UploadPage() {
   const [success, setSuccess] = useState<number | null>(null)
@@ -21,7 +22,9 @@ export default function UploadPage() {
       <div className="bg-white rounded-2xl p-8 shadow-sm">
         {success !== null ? (
           <div className="text-center py-8">
-            <div className="text-5xl mb-4">✅</div>
+            <div className="flex justify-center mb-4">
+              <CheckCircle2 size={48} style={{ color: '#27AE60' }} strokeWidth={1.5} />
+            </div>
             <h2 className="text-xl font-semibold mb-2" style={{ color: '#1C2833' }}>
               {success} registros importados
             </h2>

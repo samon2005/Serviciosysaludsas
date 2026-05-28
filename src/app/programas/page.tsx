@@ -3,7 +3,15 @@ import { programas } from '@/lib/programas-data'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Brain, Heart, Shield, Users } from 'lucide-react'
 import type { Metadata } from 'next'
+
+const iconMap: Record<string, React.ReactNode> = {
+  brain:  <Brain  size={26} strokeWidth={1.5} />,
+  heart:  <Heart  size={26} strokeWidth={1.5} />,
+  shield: <Shield size={26} strokeWidth={1.5} />,
+  users:  <Users  size={26} strokeWidth={1.5} />,
+}
 
 export const metadata: Metadata = {
   title: 'Programas — Servicios y Salud S.A.S.',
@@ -38,10 +46,10 @@ export default function ProgramasPage() {
                 <CardHeader>
                   <div className="flex items-start gap-4">
                     <div
-                      className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl shrink-0"
-                      style={{ backgroundColor: `${p.color}18` }}
+                      className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: `${p.color}18`, color: p.color }}
                     >
-                      {p.icon}
+                      {iconMap[p.icon] ?? null}
                     </div>
                     <div>
                       <h2 className="text-xl font-bold" style={{ color: '#1C2833' }}>

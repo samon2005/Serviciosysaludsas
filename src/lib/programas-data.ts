@@ -16,7 +16,7 @@ export const programas: Programa[] = [
     description: 'Intervención psicosocial y fortalecimiento de la salud mental en comunidades e instituciones.',
     longDescription:
       'Desarrollamos estrategias integrales de intervención psicosocial orientadas al fortalecimiento de la salud mental en comunidades, instituciones educativas y empresas a nivel nacional. Nuestro equipo multidisciplinario trabaja en la identificación temprana de factores de riesgo y la promoción del bienestar emocional.',
-    icon: '🧠',
+    icon: 'brain',
     color: '#2980B9',
     objetivos: [
       'Diagnóstico de necesidades en salud mental comunitaria',
@@ -34,7 +34,7 @@ export const programas: Programa[] = [
       'Programas especializados en la prevención, detección temprana y posvención del suicidio.',
     longDescription:
       'Implementamos programas especializados basados en evidencia para la prevención de la conducta suicida. Trabajamos con equipos de salud, instituciones educativas y familias para desarrollar competencias en detección temprana, intervención en crisis y posvención.',
-    icon: '💙',
+    icon: 'heart',
     color: '#1A5276',
     objetivos: [
       'Detección temprana de factores de riesgo suicida',
@@ -52,7 +52,7 @@ export const programas: Programa[] = [
       'Estrategias de prevención y mitigación del consumo de sustancias psicoactivas.',
     longDescription:
       'Diseñamos e implementamos estrategias de prevención, mitigación y tratamiento del consumo de sustancias psicoactivas (SPA), adaptadas a cada contexto territorial y población. Articulamos con entidades públicas y privadas para desarrollar respuestas integrales.',
-    icon: '🛡️',
+    icon: 'shield',
     color: '#27AE60',
     objetivos: [
       'Caracterización del consumo de SPA en territorios',
@@ -70,7 +70,7 @@ export const programas: Programa[] = [
       'Desarrollo de proyectos sociales con impacto comunitario a nivel nacional.',
     longDescription:
       'Acompañamos procesos de desarrollo social y comunitario a nivel nacional, articulando actores institucionales, comunitarios y del sector privado. Diseñamos proyectos con impacto medible orientados al fortalecimiento del tejido social y la participación ciudadana.',
-    icon: '🤝',
+    icon: 'users',
     color: '#8E44AD',
     objetivos: [
       'Diagnósticos participativos de necesidades comunitarias',

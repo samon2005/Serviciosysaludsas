@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   const sheet = workbook.Sheets[workbook.SheetNames[0]]
   const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet)
 
-  const eventos = rows
+  const rawEventos = rows
     .map((row) => ({
       departamento: String(row['departamento'] || row['Departamento'] || ''),
       municipio: String(row['municipio'] || row['Municipio'] || '') || null,
@@ -34,19 +34,27 @@ export async function POST(req: NextRequest) {
     }))
     .filter((e) => e.departamento && e.año > 0)
 
-  if (eventos.length === 0) {
+  if (rawEventos.length === 0) {
     return NextResponse.json(
       { error: 'No se encontraron filas válidas. Verifique el formato del archivo.' },
       { status: 400 }
     )
   }
 
+  const { data: upload, error: uploadError } = await supabase
+    .from('uploads')
+    .insert({ filename: file.name, rows_imported: rawEventos.length })
+    .select('id')
+    .single()
+
+  if (uploadError || !upload) {
+    return NextResponse.json({ error: uploadError?.message || 'Error al registrar carga' }, { status: 500 })
+  }
+
+  const eventos = rawEventos.map((e) => ({ ...e, upload_id: upload.id }))
+
   const { error } = await supabase.from('eventos').insert(eventos)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-
-  await supabase
-    .from('uploads')
-    .insert({ filename: file.name, rows_imported: eventos.length })
 
   return NextResponse.json({ success: true, rows_imported: eventos.length })
 }

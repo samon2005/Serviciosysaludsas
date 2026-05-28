@@ -37,7 +37,7 @@ export function DashboardFilters({ filters, onChange }: Props) {
           onValueChange={(v) => onChange('año', !v || !v || v === 'all' ? '' : v)}
         >
           <SelectTrigger className="h-9">
-            <SelectValue placeholder="Todos" />
+            <SelectValue placeholder="Todos">{filters.año || 'Todos'}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Todos</SelectItem>
@@ -57,7 +57,7 @@ export function DashboardFilters({ filters, onChange }: Props) {
           onValueChange={(v) => onChange('programa', !v || v === 'all' ? '' : v)}
         >
           <SelectTrigger className="h-9">
-            <SelectValue placeholder="Todos" />
+            <SelectValue placeholder="Todos">{filters.programa || 'Todos'}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Todos</SelectItem>
@@ -77,7 +77,7 @@ export function DashboardFilters({ filters, onChange }: Props) {
           onValueChange={(v) => onChange('tipo_evento', !v || v === 'all' ? '' : v)}
         >
           <SelectTrigger className="h-9">
-            <SelectValue placeholder="Todos" />
+            <SelectValue placeholder="Todos">{filters.tipo_evento || 'Todos'}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Todos</SelectItem>

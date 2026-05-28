@@ -3,7 +3,15 @@ import { notFound } from 'next/navigation'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { Brain, Heart, Shield, Users } from 'lucide-react'
 import type { Metadata } from 'next'
+
+const iconMap: Record<string, React.ReactNode> = {
+  brain:  <Brain  size={30} strokeWidth={1.5} />,
+  heart:  <Heart  size={30} strokeWidth={1.5} />,
+  shield: <Shield size={30} strokeWidth={1.5} />,
+  users:  <Users  size={30} strokeWidth={1.5} />,
+}
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -44,8 +52,8 @@ export default async function ProgramaDetailPage({ params }: Props) {
             ← Todos los programas
           </Link>
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-4xl">
-              {programa.icon}
+            <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-white">
+              {iconMap[programa.icon] ?? null}
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-white">
               {programa.title}
@@ -75,10 +83,12 @@ export default async function ProgramaDetailPage({ params }: Props) {
                 {programa.objetivos.map((o) => (
                   <li key={o} className="flex items-start gap-3">
                     <span
-                      className="mt-1 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shrink-0"
-                      style={{ backgroundColor: programa.color }}
+                      className="mt-1 w-5 h-5 rounded-full flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: `${programa.color}18`, color: programa.color }}
                     >
-                      ✓
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                        <path d="M1.5 5L4 7.5L8.5 2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
                     </span>
                     <span className="text-gray-600">{o}</span>
                   </li>

@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { MapPin, AtSign } from 'lucide-react'
 
 export default function ContactoPage() {
   const [form, setForm] = useState({
@@ -57,7 +58,7 @@ export default function ContactoPage() {
             {status === 'sent' ? (
               <div className="bg-green-50 border border-green-200 rounded-xl p-6">
                 <p className="text-green-700 font-medium">
-                  ✓ Mensaje enviado. Nos comunicaremos pronto.
+                  Mensaje enviado. Nos comunicaremos pronto.
                 </p>
               </div>
             ) : (
@@ -126,9 +127,12 @@ export default function ContactoPage() {
                 Información de contacto
               </h3>
               <div className="space-y-3 text-gray-600">
-                <p>📍 Colombia — Cobertura Nacional</p>
-                <p>
-                  📱{' '}
+                <p className="flex items-center gap-2">
+                  <MapPin size={15} style={{ color: '#2980B9' }} />
+                  Colombia — Cobertura Nacional
+                </p>
+                <p className="flex items-center gap-2">
+                  <AtSign size={15} style={{ color: '#2980B9' }} />
                   <a
                     href="https://www.instagram.com/serviciosysaludsas/"
                     target="_blank"

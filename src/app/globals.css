@@ -123,10 +123,41 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-sans), 'DM Sans', system-ui, sans-serif;
     color: #1C2833;
   }
   html {
     @apply font-sans;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-heading), Georgia, serif;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee-track {
+    animation: marquee 55s linear infinite;
+    will-change: transform;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+  .hero-btn-outline {
+    color: rgba(255,255,255,0.75);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .hero-btn-outline:hover {
+    background-color: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.9);
+  }
+  .footer-link {
+    color: rgba(255,255,255,0.55);
+  }
+  .footer-link:hover {
+    color: rgba(255,255,255,0.9);
+  }
+  .footer-contact li {
+    color: rgba(255,255,255,0.55);
   }
 }

@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge'
+import { Target, Telescope } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -49,10 +50,10 @@ export default function QuienesSomosPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
           <div className="bg-white rounded-2xl p-8 shadow-sm">
             <div
-              className="w-12 h-12 rounded-xl mb-4 flex items-center justify-center text-2xl"
-              style={{ backgroundColor: '#E8F4FD' }}
+              className="w-12 h-12 rounded-xl mb-4 flex items-center justify-center"
+              style={{ backgroundColor: '#E8F4FD', color: '#1A5276' }}
             >
-              🎯
+              <Target size={22} strokeWidth={1.5} />
             </div>
             <h2 className="text-2xl font-bold mb-4" style={{ color: '#1A5276' }}>
               Misión
@@ -67,10 +68,10 @@ export default function QuienesSomosPage() {
 
           <div className="bg-white rounded-2xl p-8 shadow-sm">
             <div
-              className="w-12 h-12 rounded-xl mb-4 flex items-center justify-center text-2xl"
-              style={{ backgroundColor: '#E8F4FD' }}
+              className="w-12 h-12 rounded-xl mb-4 flex items-center justify-center"
+              style={{ backgroundColor: '#E8F4FD', color: '#1A5276' }}
             >
-              🔭
+              <Telescope size={22} strokeWidth={1.5} />
             </div>
             <h2 className="text-2xl font-bold mb-4" style={{ color: '#1A5276' }}>
               Visión

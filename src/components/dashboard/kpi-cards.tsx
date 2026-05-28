@@ -1,4 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card'
+import { BarChart2, MapPin, TrendingUp, TrendingDown, FileText } from 'lucide-react'
 import type { KPIData } from '@/lib/types'
 
 interface Props {
@@ -6,30 +7,33 @@ interface Props {
 }
 
 export function KPICards({ kpis }: Props) {
+  const TrendIcon = kpis.variacion_anual > 0 ? TrendingUp : TrendingDown
+  const trendColor = kpis.variacion_anual > 0 ? '#E74C3C' : '#27AE60'
+
   const cards = [
     {
       label: 'Total de Casos',
       value: kpis.total_casos.toLocaleString('es-CO'),
-      icon: '📊',
+      icon: <BarChart2 size={18} strokeWidth={1.5} />,
       color: '#1A5276',
     },
     {
       label: 'Departamento con más casos',
       value: kpis.top_departamento,
-      icon: '📍',
+      icon: <MapPin size={18} strokeWidth={1.5} />,
       color: '#2980B9',
     },
     {
       label: 'Variación Anual',
       value: `${kpis.variacion_anual > 0 ? '+' : ''}${kpis.variacion_anual}%`,
-      icon: kpis.variacion_anual > 0 ? '📈' : '📉',
-      color: kpis.variacion_anual > 0 ? '#E74C3C' : '#27AE60',
+      icon: <TrendIcon size={18} strokeWidth={1.5} />,
+      color: trendColor,
     },
     {
       label: 'Total Registros',
       value: kpis.total_registros.toLocaleString('es-CO'),
-      icon: '📋',
-      color: '#8E44AD',
+      icon: <FileText size={18} strokeWidth={1.5} />,
+      color: '#5D6D7E',
     },
   ]
 
@@ -40,12 +44,19 @@ export function KPICards({ kpis }: Props) {
           <CardContent className="p-6">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm text-gray-500 mb-1">{c.label}</p>
-                <p className="text-2xl font-bold" style={{ color: c.color }}>
+                <p className="text-xs text-gray-400 mb-1 font-medium tracking-wide uppercase">
+                  {c.label}
+                </p>
+                <p className="text-2xl font-bold mt-2" style={{ color: c.color }}>
                   {c.value}
                 </p>
               </div>
-              <span className="text-2xl">{c.icon}</span>
+              <div
+                className="w-9 h-9 rounded-lg flex items-center justify-center mt-0.5"
+                style={{ backgroundColor: `${c.color}12`, color: c.color }}
+              >
+                {c.icon}
+              </div>
             </div>
           </CardContent>
         </Card>

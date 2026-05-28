@@ -1,10 +1,20 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Outfit, DM_Sans } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 
-const inter = Inter({ subsets: ['latin'] })
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-heading',
+  display: 'swap',
+})
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Servicios y Salud S.A.S.',
@@ -19,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="h-full">
-      <body className={`${inter.className} min-h-full flex flex-col antialiased`}>
+      <body className={`${outfit.variable} ${dmSans.variable} min-h-full flex flex-col antialiased`}>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

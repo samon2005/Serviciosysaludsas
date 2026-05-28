@@ -17,7 +17,12 @@ export async function GET(req: NextRequest) {
   if (programa) query = query.eq('programa', programa)
   if (tipo_evento) query = query.eq('tipo_evento', tipo_evento)
 
-  const { data, error } = await query
+  const [{ data, error }, { count: totalSinFiltro }, { data: ultimaCargaData }] =
+    await Promise.all([
+      query,
+      supabase.from('eventos').select('*', { count: 'exact', head: true }),
+      supabase.from('uploads').select('uploaded_at').order('uploaded_at', { ascending: false }).limit(1),
+    ])
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
@@ -30,6 +35,8 @@ export async function GET(req: NextRequest) {
         variacion_anual: 0,
         total_registros: 0,
       },
+      total_sin_filtro: totalSinFiltro || 0,
+      ultima_carga: ultimaCargaData?.[0]?.uploaded_at || null,
     })
   }
 
@@ -58,5 +65,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     eventos: data,
     kpis: { total_casos, top_departamento, variacion_anual, total_registros },
+    total_sin_filtro: totalSinFiltro || 0,
+    ultima_carga: ultimaCargaData?.[0]?.uploaded_at || null,
   })
 }
