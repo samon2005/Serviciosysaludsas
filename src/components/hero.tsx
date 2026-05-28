@@ -11,7 +11,7 @@ const programs = [
 export function Hero() {
   return (
     <section
-      className="relative overflow-hidden flex flex-col"
+      className="relative overflow-hidden flex flex-col min-h-screen"
       style={{ background: '#0F2D3F' }}
     >
       {/* fondo split solo en desktop — cubre exactamente la altura del contenido */}
@@ -28,7 +28,7 @@ export function Hero() {
       }} />
 
       {/* contenido principal */}
-      <div className="relative max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row lg:min-h-screen py-16 lg:py-0">
+      <div className="relative flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row py-16 lg:py-0">
 
         {/* ── IZQUIERDA — texto ── */}
         <div className="flex flex-col justify-center lg:w-[58%] lg:pr-20 lg:py-24">
