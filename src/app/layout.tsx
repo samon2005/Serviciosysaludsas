@@ -1,17 +1,12 @@
 import type { Metadata } from 'next'
-import { Source_Serif_4, Public_Sans } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 
-const sourceSerif4 = Source_Serif_4({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-heading',
-  display: 'swap',
-})
-
-const publicSans = Public_Sans({
-  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
   variable: '--font-sans',
   display: 'swap',
 })
@@ -29,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="h-full">
-      <body className={`${sourceSerif4.variable} ${publicSans.variable} min-h-full flex flex-col antialiased`}>
+      <body className={`${jakarta.variable} min-h-full flex flex-col antialiased`}>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
