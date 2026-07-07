@@ -5,9 +5,11 @@ import { FolderOpen } from 'lucide-react'
 
 interface Props {
   onSuccess: (rows: number) => void
+  /** Upload endpoint. Defaults to /api/upload */
+  endpoint?: string
 }
 
-export function ExcelDropzone({ onSuccess }: Props) {
+export function ExcelDropzone({ onSuccess, endpoint = '/api/upload' }: Props) {
   const [dragging, setDragging] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
@@ -40,7 +42,7 @@ export function ExcelDropzone({ onSuccess }: Props) {
     const formData = new FormData()
     formData.append('file', file)
 
-    const res = await fetch('/api/upload', { method: 'POST', body: formData })
+    const res = await fetch(endpoint, { method: 'POST', body: formData })
     const json = await res.json()
 
     setUploading(false)

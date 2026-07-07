@@ -14,15 +14,17 @@ interface Props {
   open: boolean
   onClose: () => void
   onDeleted: () => void
+  /** API endpoint for listing and deleting uploads. Defaults to /api/dashboard/uploads */
+  uploadsEndpoint?: string
 }
 
-async function loadUploads(): Promise<Upload[]> {
-  const res = await fetch('/api/dashboard/uploads')
+async function loadUploads(endpoint: string): Promise<Upload[]> {
+  const res = await fetch(endpoint)
   const json = await res.json()
   return json.uploads || []
 }
 
-export function HistorialModal({ open, onClose, onDeleted }: Props) {
+export function HistorialModal({ open, onClose, onDeleted, uploadsEndpoint = '/api/dashboard/uploads' }: Props) {
   const [uploads, setUploads] = useState<Upload[]>([])
   const [loading, setLoading] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<Upload | null>(null)
@@ -31,7 +33,7 @@ export function HistorialModal({ open, onClose, onDeleted }: Props) {
   useEffect(() => {
     if (!open) return
     let cancelled = false
-    loadUploads()
+    loadUploads(uploadsEndpoint)
       .then((data) => {
         if (!cancelled) {
           setUploads(data)
@@ -42,11 +44,11 @@ export function HistorialModal({ open, onClose, onDeleted }: Props) {
         if (!cancelled) setLoading(false)
       })
     return () => { cancelled = true }
-  }, [open, reloadTrigger])
+  }, [open, reloadTrigger, uploadsEndpoint])
 
   const handleDelete = async () => {
     if (!deleteTarget) return
-    await fetch(`/api/dashboard/uploads/${deleteTarget.id}`, { method: 'DELETE' })
+    await fetch(`${uploadsEndpoint}/${deleteTarget.id}`, { method: 'DELETE' })
     setDeleteTarget(null)
     setLoading(true)
     setReloadTrigger((n) => n + 1)
