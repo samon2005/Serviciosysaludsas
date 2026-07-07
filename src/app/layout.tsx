@@ -1,16 +1,16 @@
 import type { Metadata } from 'next'
-import { Outfit, DM_Sans } from 'next/font/google'
+import { Source_Serif_4, Public_Sans } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 
-const outfit = Outfit({
+const sourceSerif4 = Source_Serif_4({
   subsets: ['latin'],
   variable: '--font-heading',
   display: 'swap',
 })
 
-const dmSans = DM_Sans({
+const publicSans = Public_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="h-full">
-      <body className={`${outfit.variable} ${dmSans.variable} min-h-full flex flex-col antialiased`}>
+      <body className={`${sourceSerif4.variable} ${publicSans.variable} min-h-full flex flex-col antialiased`}>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
