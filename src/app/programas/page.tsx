@@ -18,7 +18,7 @@ export default function ProgramasPage() {
       {/* Page header */}
       <section className="bg-brand py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-white/10 text-white/80 mb-5">
+          <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-white/10 text-white/80 mb-5">
             Servicios
           </span>
           <h1 className="font-bold tracking-tighter text-4xl md:text-5xl text-white leading-tight">
@@ -42,7 +42,7 @@ export default function ProgramasPage() {
                   <div className="flex-1 min-w-0">
                     {/* Emergency pill */}
                     <div className="flex flex-wrap items-center gap-3 mb-6">
-                      <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-emergency/15 text-emergency">
+                      <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-emergency/15 text-emergency">
                         Servicio insignia
                       </span>
                       {flagship.telefono && (
@@ -61,7 +61,7 @@ export default function ProgramasPage() {
                     </p>
 
                     <div className="mb-8">
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500 mb-4">
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-4">
                         Actividades principales
                       </p>
                       <ul className="space-y-2.5">
@@ -89,7 +89,7 @@ export default function ProgramasPage() {
                   {/* Phone callout card */}
                   {flagship.telefono && (
                     <aside className="lg:w-64 shrink-0 bg-white/5 border border-white/10 rounded-[1.5rem] p-7 text-white">
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-3">
+                      <p className="text-xs uppercase tracking-[0.2em] text-white/40 mb-3">
                         Línea de atención
                       </p>
                       <p className="font-extrabold tracking-tighter text-2xl xl:text-3xl whitespace-nowrap text-emergency leading-none mb-2">
@@ -113,7 +113,7 @@ export default function ProgramasPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
             <div className="mb-10 flex items-center gap-4">
-              <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-brand/8 text-brand">
+              <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-brand/8 text-brand">
                 Portafolio
               </span>
               <h2 className="font-bold tracking-tighter text-2xl text-ink">
@@ -135,10 +135,10 @@ export default function ProgramasPage() {
                     <h3 className="font-bold tracking-tight text-xl text-ink mb-1.5">
                       {p.title}
                     </h3>
-                    <p className="text-slate-600 text-sm leading-relaxed mb-2 max-w-[65ch]">
+                    <p className="text-slate-600 text-base leading-relaxed mb-2 max-w-[65ch]">
                       {p.description}
                     </p>
-                    <p className="text-slate-500 text-sm leading-relaxed">
+                    <p className="text-slate-500 text-base leading-relaxed">
                       <span className="font-semibold text-slate-700">Objetivo: </span>
                       {p.objetivo}
                     </p>

@@ -1,4 +1,5 @@
 import { Reveal } from '@/components/reveal'
+import Image from 'next/image'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -45,16 +46,31 @@ const timelineItems = [
 export default function QuienesSomosPage() {
   return (
     <main className="bg-surface min-h-screen">
-      {/* Header — editorial intro */}
-      <section className="bg-brand py-20 md:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-white/10 text-white/80 mb-5">
+      {/* Header — editorial intro con imagen diagonal */}
+      <section className="relative bg-brand overflow-hidden">
+        {/* Imagen con corte diagonal, lado derecho */}
+        <div
+          className="absolute inset-y-0 right-0 w-1/2 hidden lg:block"
+          style={{ clipPath: 'polygon(18% 0, 100% 0, 100% 100%, 0 100%)' }}
+        >
+          <Image
+            src="/images/equipo-quienes-somos.jpg"
+            alt="Manos de un equipo de trabajo unidas sobre una mesa con documentos de análisis"
+            fill
+            sizes="50vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-brand/40" />
+        </div>
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+          <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-white/10 text-white/80 mb-5">
             La empresa
           </span>
-          <h1 className="font-extrabold tracking-tighter text-4xl md:text-6xl text-white leading-tight max-w-3xl">
+          <h1 className="font-extrabold tracking-tighter text-4xl md:text-6xl text-white leading-tight max-w-2xl">
             Quiénes somos
           </h1>
-          <p className="mt-5 text-white/75 text-lg max-w-[65ch] leading-relaxed">
+          <p className="mt-6 text-white/75 text-lg md:text-xl max-w-[46ch] leading-relaxed">
             Empresa privada con enfoque social y territorial dedicada a la gestión
             integral de la salud mental y el bienestar psicosocial en Colombia.
           </p>
@@ -67,10 +83,10 @@ export default function QuienesSomosPage() {
           <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
             <div className="md:col-span-2">
               <Reveal>
-                <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-brand/8 text-brand mb-4">
+                <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-brand/8 text-brand mb-4">
                   Reseña histórica
                 </span>
-                <h2 className="font-bold tracking-tighter text-3xl text-ink mb-10">
+                <h2 className="font-bold tracking-tighter text-3xl md:text-4xl text-ink mb-10">
                   Una empresa nacida del territorio
                 </h2>
               </Reveal>
@@ -90,7 +106,7 @@ export default function QuienesSomosPage() {
                           {item.year}
                         </span>
                         <h3 className="font-bold text-ink text-base mb-1.5">{item.title}</h3>
-                        <p className="text-slate-600 text-sm leading-relaxed max-w-[60ch]">{item.desc}</p>
+                        <p className="text-slate-600 text-base leading-relaxed max-w-[60ch]">{item.desc}</p>
                       </li>
                     </Reveal>
                   ))}
@@ -99,7 +115,7 @@ export default function QuienesSomosPage() {
 
               <Reveal delay={300}>
                 <div className="mt-12 pl-10">
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-slate-400 mb-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400 mb-4">
                     Proyectos liderados desde 2023
                   </p>
                   <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-2.5">
@@ -117,7 +133,7 @@ export default function QuienesSomosPage() {
             {/* Quick facts sidebar */}
             <aside className="space-y-3">
               <Reveal delay={100}>
-                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-400 mb-4">Datos clave</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400 mb-4">Datos clave</p>
               </Reveal>
               {[
                 { label: 'Año de fundación', value: '2023' },
@@ -143,7 +159,7 @@ export default function QuienesSomosPage() {
       <section className="border-t border-slate-100 py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-brand/8 text-brand mb-8">
+            <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-brand/8 text-brand mb-8">
               Misión y visión
             </span>
           </Reveal>
@@ -152,7 +168,7 @@ export default function QuienesSomosPage() {
             {/* Misión — white diffusion card */}
             <Reveal delay={0}>
               <div className="bg-white rounded-[2rem] shadow-diffusion-lg ring-1 ring-slate-900/5 p-8 md:p-10 h-full">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-brand mb-4">Misión</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-brand mb-4">Misión</p>
                 <h2 className="font-bold tracking-tighter text-2xl text-ink mb-5">
                   Lo que hacemos y para quién
                 </h2>
@@ -170,7 +186,7 @@ export default function QuienesSomosPage() {
             {/* Visión — brand/dark card */}
             <Reveal delay={100}>
               <div className="bg-brand rounded-[2rem] p-8 md:p-10 text-white h-full">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-white/50 mb-4">Visión 2028</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-4">Visión 2028</p>
                 <h2 className="font-bold tracking-tighter text-2xl text-white mb-5">
                   Hacia dónde vamos
                 </h2>
@@ -201,10 +217,10 @@ export default function QuienesSomosPage() {
       <section className="bg-surface border-t border-slate-100 py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-brand/8 text-brand mb-4">
+            <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-brand/8 text-brand mb-4">
               Valores corporativos
             </span>
-            <h2 className="font-bold tracking-tighter text-3xl text-ink mb-10">
+            <h2 className="font-bold tracking-tighter text-3xl md:text-4xl text-ink mb-10">
               Los principios que guían nuestra actuación
             </h2>
           </Reveal>
@@ -218,7 +234,7 @@ export default function QuienesSomosPage() {
                       {v.title}
                     </span>
                   </dt>
-                  <dd className="text-slate-600 text-sm leading-relaxed max-w-[65ch]">{v.desc}</dd>
+                  <dd className="text-slate-600 text-base leading-relaxed max-w-[65ch]">{v.desc}</dd>
                 </div>
               </Reveal>
             ))}
@@ -230,10 +246,10 @@ export default function QuienesSomosPage() {
       <section className="bg-white border-t border-slate-100 py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-brand/8 text-brand mb-4">
+            <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-brand/8 text-brand mb-4">
               Política de calidad
             </span>
-            <h2 className="font-bold tracking-tighter text-3xl text-ink mb-8">
+            <h2 className="font-bold tracking-tighter text-3xl md:text-4xl text-ink mb-8">
               Compromiso con la calidad y la mejora continua
             </h2>
           </Reveal>

@@ -32,7 +32,7 @@ export default function ContactoPage() {
       {/* Header */}
       <section className="bg-brand py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-white/10 text-white/80 mb-5">
+          <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-white/10 text-white/80 mb-5">
             Comunícate con nosotros
           </span>
           <h1 className="font-extrabold tracking-tighter text-4xl md:text-5xl text-white mb-4 leading-tight">
@@ -150,7 +150,7 @@ export default function ContactoPage() {
           <div className="space-y-5">
             {/* Línea 24/7 emergency chip */}
             <div className="bg-surface-dark rounded-[1.5rem] p-6 text-white">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-3">
+              <p className="text-xs uppercase tracking-[0.2em] text-white/40 mb-3">
                 Línea de emergencia
               </p>
               <div className="flex items-center gap-3 mb-3">

@@ -2,6 +2,7 @@ import { Hero } from '@/components/hero'
 import { ProgramsOverview } from '@/components/programs-overview'
 import { Reveal } from '@/components/reveal'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Phone, ArrowRight, CheckCircle } from 'lucide-react'
 
 /* ──────────────────────────────────────────────
@@ -58,28 +59,6 @@ const normas = [
   },
 ]
 
-/* ──────────────────────────────────────────────
-   Sección 6: Valores
-────────────────────────────────────────────── */
-const valores = [
-  {
-    titulo: 'Rigor técnico',
-    descripcion: 'Intervenciones fundamentadas en evidencia científica y protocolos validados.',
-  },
-  {
-    titulo: 'Compromiso territorial',
-    descripcion: 'Profundo conocimiento del contexto municipal y departamental de Antioquia.',
-  },
-  {
-    titulo: 'Articulación institucional',
-    descripcion: 'Trabajo coordinado con secretarías de salud, alcaldías, hospitales y entidades del sector.',
-  },
-  {
-    titulo: 'Transparencia en resultados',
-    descripcion: 'Medición y reporte de impacto con trazabilidad desde la intervención individual hasta el análisis municipal.',
-  },
-]
-
 export default function HomePage() {
   return (
     <>
@@ -99,10 +78,10 @@ export default function HomePage() {
                   Línea Amiga 24/7
                 </span>
               </div>
-              <h2 className="font-heading text-3xl md:text-4xl text-ink font-bold leading-tight tracking-tighter text-balance mb-5">
+              <h2 className="font-heading text-4xl md:text-5xl text-ink font-bold leading-tight tracking-tighter text-balance mb-6">
                 Atención permanente en crisis suicida y emergencias psicosociales
               </h2>
-              <p className="text-slate-500 font-sans text-base leading-relaxed mb-8">
+              <p className="text-slate-500 font-sans text-lg leading-relaxed mb-9">
                 La Línea Amiga 24/7 es el servicio insignia de Servicios &amp; Salud S.A.S.
                 Su objetivo es reducir las conductas autolesivas y los suicidios consumados
                 en los municipios de Antioquia mediante atención especializada sin
@@ -118,12 +97,18 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Credencial visual */}
-            <div className="bg-surface rounded-[1.5rem] p-8 shadow-diffusion ring-1 ring-slate-900/5">
-              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-slate-400 mb-6 font-sans">
-                Lo que garantizamos
-              </p>
-              <ul className="flex flex-col gap-4">
+            {/* Imagen + garantías */}
+            <div className="overflow-hidden rounded-[1.5rem] shadow-diffusion ring-1 ring-slate-900/5 bg-white">
+              <div className="relative h-52">
+                <Image
+                  src="/images/acompanamiento-linea.jpg"
+                  alt="Profesional de salud mental tomando notas durante una sesión de acompañamiento"
+                  fill
+                  sizes="(min-width: 1024px) 45vw, 90vw"
+                  className="object-cover"
+                />
+              </div>
+              <ul className="flex flex-col gap-4 p-8">
                 {[
                   'Atención telefónica y virtual permanente, todos los días del año',
                   'Profesionales de la salud mental especializados en crisis',
@@ -132,8 +117,8 @@ export default function HomePage() {
                   'Articulación con hospitales, EPS, Policía y Secretarías de Salud',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <CheckCircle size={15} className="text-brand mt-0.5 shrink-0" strokeWidth={1.5} />
-                    <span className="text-sm text-slate-600 font-sans leading-relaxed">{item}</span>
+                    <CheckCircle size={17} className="text-brand mt-0.5 shrink-0" strokeWidth={1.5} />
+                    <span className="text-base text-slate-600 font-sans leading-relaxed">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -143,7 +128,7 @@ export default function HomePage() {
           {/* Los 4 pasos — connected horizontal flow */}
           <Reveal>
             <div className="bg-white rounded-[2rem] shadow-diffusion-lg ring-1 ring-slate-900/5 p-8 md:p-10">
-              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-slate-400 mb-8 font-sans">
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 mb-8 font-sans">
                 Cómo funciona
               </p>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
@@ -157,10 +142,10 @@ export default function HomePage() {
                         <div className="hidden lg:block flex-1 h-px bg-slate-100" />
                       )}
                     </div>
-                    <h3 className="font-sans font-semibold text-ink text-sm leading-snug">
+                    <h3 className="font-sans font-semibold text-ink text-base leading-snug">
                       {titulo}
                     </h3>
-                    <p className="text-slate-500 font-sans text-xs leading-relaxed">
+                    <p className="text-slate-500 font-sans text-sm leading-relaxed">
                       {descripcion}
                     </p>
                   </div>
@@ -183,13 +168,13 @@ export default function HomePage() {
 
                 {/* Misión */}
                 <div>
-                  <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-brand-action mb-6 font-sans">
+                  <p className="text-xs font-semibold tracking-[0.2em] uppercase text-brand-action mb-6 font-sans">
                     Misión
                   </p>
-                  <h2 className="font-heading text-2xl md:text-3xl text-white font-bold tracking-tighter leading-tight mb-6 text-balance">
+                  <h2 className="font-heading text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight mb-6 text-balance">
                     Fortalecer la salud mental pública con intervención técnica y territorial
                   </h2>
-                  <p className="text-white/55 font-sans text-base leading-relaxed">
+                  <p className="text-white/55 font-sans text-lg leading-relaxed">
                     Servicios &amp; Salud S.A.S. brinda servicios especializados en salud mental,
                     prevención del suicidio y gestión psicosocial a entidades territoriales y
                     del sector salud. Generamos impacto medible mediante intervenciones basadas
@@ -200,13 +185,13 @@ export default function HomePage() {
 
                 {/* Visión */}
                 <div>
-                  <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-brand-action mb-6 font-sans">
+                  <p className="text-xs font-semibold tracking-[0.2em] uppercase text-brand-action mb-6 font-sans">
                     Visión 2028
                   </p>
-                  <h2 className="font-heading text-2xl md:text-3xl text-white font-bold tracking-tighter leading-tight mb-6 text-balance">
+                  <h2 className="font-heading text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight mb-6 text-balance">
                     Empresa líder nacional en inteligencia psicosocial territorial
                   </h2>
-                  <p className="text-white/55 font-sans text-base leading-relaxed">
+                  <p className="text-white/55 font-sans text-lg leading-relaxed">
                     Para 2028, Servicios &amp; Salud S.A.S. será reconocida como la empresa
                     colombiana referente en inteligencia psicosocial territorial, con presencia
                     en todos los departamentos y una plataforma de datos —PIPST— que oriente
@@ -225,10 +210,10 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
             <div className="mb-12">
-              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-brand-action mb-3 font-sans">
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-brand-action mb-3 font-sans">
                 Marco normativo
               </p>
-              <h2 className="font-heading text-2xl md:text-3xl text-ink font-bold tracking-tighter leading-tight text-balance">
+              <h2 className="font-heading text-3xl md:text-4xl text-ink font-bold tracking-tighter leading-tight text-balance">
                 Alineación con la política nacional de salud mental
               </h2>
             </div>
@@ -240,10 +225,10 @@ export default function HomePage() {
                 <span className="font-sans text-[10px] font-bold tracking-[0.2em] uppercase text-brand-action">
                   {codigo}
                 </span>
-                <h3 className="font-sans font-semibold text-ink text-sm leading-snug">
+                <h3 className="font-sans font-semibold text-ink text-lg leading-snug">
                   {titulo}
                 </h3>
-                <p className="text-slate-500 font-sans text-xs leading-relaxed">
+                <p className="text-slate-500 font-sans text-[15px] leading-relaxed">
                   {descripcion}
                 </p>
               </Reveal>
@@ -252,36 +237,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. Valores y fortalezas */}
-      <section className="py-20 bg-surface">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal className="mb-12">
-            <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-brand-action mb-3 font-sans">
-              Nuestros principios
-            </p>
-            <h2 className="font-heading text-2xl md:text-3xl text-ink font-bold tracking-tighter leading-tight text-balance">
-              Valores que orientan cada intervención
-            </h2>
-          </Reveal>
-
-          <div className="flex flex-wrap gap-x-3 gap-y-3">
-            {valores.map(({ titulo, descripcion }) => (
-              <div
-                key={titulo}
-                title={descripcion}
-                className="group relative flex items-center gap-2.5 rounded-full bg-white ring-1 ring-slate-200 px-5 py-2.5 hover:ring-brand-action/30 hover:shadow-diffusion transition-all duration-300 cursor-default"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-action shrink-0" />
-                <span className="font-sans font-semibold text-ink text-sm">{titulo}</span>
-                {/* Tooltip on hover */}
-                <div className="absolute bottom-full left-0 mb-2 w-64 bg-ink text-white text-xs font-sans leading-relaxed rounded-xl px-4 py-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 shadow-diffusion-lg">
-                  {descripcion}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </>
   )
 }

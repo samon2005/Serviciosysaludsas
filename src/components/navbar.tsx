@@ -31,6 +31,13 @@ export function Navbar() {
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
+    // "Línea 24/7" vive bajo /programas/: solo un enlace puede estar activo.
+    if (href === '/programas') {
+      return (
+        (pathname === '/programas' || pathname.startsWith('/programas/')) &&
+        pathname !== '/programas/linea-24-7'
+      )
+    }
     return pathname === href || pathname.startsWith(href + '/')
   }
 

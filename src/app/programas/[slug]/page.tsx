@@ -44,7 +44,7 @@ export default async function ProgramaDetailPage({ params }: Props) {
             </Link>
 
             <div className="flex flex-wrap items-center gap-3 mb-6">
-              <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-emergency/15 text-emergency">
+              <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-emergency/15 text-emergency">
                 Servicio insignia · Prevención del suicidio
               </span>
 
@@ -67,7 +67,7 @@ export default async function ProgramaDetailPage({ params }: Props) {
             {/* 4-step ruta strip — numbered chips with connectors */}
             {isLinea && (
               <div className="mt-12 bg-white/5 border border-white/10 rounded-[1.5rem] p-6 md:p-8">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-6">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/40 mb-6">
                   Ruta de atención en crisis suicida
                 </p>
                 <ol className="grid sm:grid-cols-4 gap-0 relative">
@@ -104,7 +104,7 @@ export default async function ProgramaDetailPage({ params }: Props) {
             >
               ← Todos los servicios
             </Link>
-            <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-brand/8 text-brand mb-5">
+            <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-brand/8 text-brand mb-5">
               Servicio estratégico
             </span>
             <h1 className="font-extrabold tracking-tighter text-4xl md:text-5xl text-ink leading-tight mb-4">
@@ -129,7 +129,7 @@ export default async function ProgramaDetailPage({ params }: Props) {
               {!isLinea && (
                 <Reveal>
                   <div>
-                    <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-brand/8 text-brand mb-4">
+                    <span className="inline-block rounded-full px-3 py-1 text-xs uppercase tracking-[0.2em] bg-brand/8 text-brand mb-4">
                       Objetivo
                     </span>
                     <p className="text-slate-700 text-base leading-relaxed max-w-[65ch]">
@@ -188,7 +188,7 @@ export default async function ProgramaDetailPage({ params }: Props) {
                   <h3 className="font-bold tracking-tight text-base text-ink mb-3">
                     Población objetivo
                   </h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">
+                  <p className="text-slate-500 text-base leading-relaxed">
                     {programa.poblacion}
                   </p>
                 </div>
