@@ -1,7 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
+import { isDemoMode, DEMO_MESSAGE } from '@/lib/demo-mode'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function DELETE(req: NextRequest) {
+  if (isDemoMode()) {
+    return NextResponse.json({ error: DEMO_MESSAGE }, { status: 403 })
+  }
+
   const supabase = await createClient()
   const { searchParams } = new URL(req.url)
 

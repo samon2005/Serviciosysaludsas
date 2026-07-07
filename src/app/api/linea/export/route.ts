@@ -1,10 +1,29 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import * as XLSX from 'xlsx'
+import { isDemoMode, filterAtenciones } from '@/lib/demo-mode'
 
 export async function GET(req: NextRequest) {
-  const supabase = await createClient()
   const { searchParams } = new URL(req.url)
+
+  if (isDemoMode()) {
+    const rows = filterAtenciones(searchParams).map(
+      ({ fecha, hora, canal, sexo, grupo_etario, municipio, motivo, nivel_riesgo, ruta_activada, canalizado_a, estado_seguimiento }) =>
+        ({ fecha, hora, canal, sexo, grupo_etario, municipio, motivo, nivel_riesgo, ruta_activada: ruta_activada ? 'Sí' : 'No', canalizado_a, estado_seguimiento })
+    )
+    const ws = XLSX.utils.json_to_sheet(rows)
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Atenciones')
+    const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' })
+    return new NextResponse(buffer, {
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'Content-Disposition': 'attachment; filename="atenciones-linea-24-7.xlsx"',
+      },
+    })
+  }
+
+  const supabase = await createClient()
 
   const año = searchParams.get('año')
   const municipio = searchParams.get('municipio')

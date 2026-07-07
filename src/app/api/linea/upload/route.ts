@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isDemoMode, DEMO_MESSAGE } from '@/lib/demo-mode'
 import * as XLSX from 'xlsx'
 import { createClient } from '@/lib/supabase/server'
 
@@ -46,6 +47,10 @@ function str(v: unknown): string | null {
 }
 
 export async function POST(req: NextRequest) {
+  if (isDemoMode()) {
+    return NextResponse.json({ error: DEMO_MESSAGE }, { status: 403 })
+  }
+
   const supabase = await createClient()
 
   // TEMPORAL: dashboard público — sin chequeo de sesión mientras el cliente revisa.

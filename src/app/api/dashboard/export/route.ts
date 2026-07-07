@@ -1,10 +1,29 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import * as XLSX from 'xlsx'
+import { isDemoMode, filterEventos } from '@/lib/demo-mode'
 
 export async function GET(req: NextRequest) {
-  const supabase = await createClient()
   const { searchParams } = new URL(req.url)
+
+  if (isDemoMode()) {
+    const rows = filterEventos(searchParams).map(
+      ({ departamento, municipio, año, mes, sexo, grupo_etario, metodo, tipo_evento, programa, casos }) =>
+        ({ departamento, municipio, año, mes, sexo, grupo_etario, metodo, tipo_evento, programa, casos })
+    )
+    const ws = XLSX.utils.json_to_sheet(rows)
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Datos')
+    const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' })
+    return new NextResponse(buffer, {
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'Content-Disposition': 'attachment; filename="datos-salud-mental.xlsx"',
+      },
+    })
+  }
+
+  const supabase = await createClient()
 
   const año = searchParams.get('año')
   const departamento = searchParams.get('departamento')

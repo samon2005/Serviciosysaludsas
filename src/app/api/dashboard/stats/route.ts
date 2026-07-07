@@ -1,28 +1,44 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import {
+  isDemoMode,
+  filterEventos,
+  demoEventos,
+  demoUploadEventos,
+} from '@/lib/demo-mode'
 
 export async function GET(req: NextRequest) {
-  const supabase = await createClient()
   const { searchParams } = new URL(req.url)
-
   const año = searchParams.get('año')
-  const municipio = searchParams.get('municipio')
-  const programa = searchParams.get('programa')
-  const tipo_evento = searchParams.get('tipo_evento')
 
-  let query = supabase.from('eventos').select('*')
+  let data, error, totalSinFiltro, ultimaCargaData
 
-  if (año) query = query.eq('año', parseInt(año))
-  if (municipio) query = query.eq('municipio', municipio)
-  if (programa) query = query.eq('programa', programa)
-  if (tipo_evento) query = query.eq('tipo_evento', tipo_evento)
+  if (isDemoMode()) {
+    data = filterEventos(searchParams)
+    error = null
+    totalSinFiltro = demoEventos.length
+    ultimaCargaData = [{ uploaded_at: demoUploadEventos.uploaded_at }]
+  } else {
+    const supabase = await createClient()
 
-  const [{ data, error }, { count: totalSinFiltro }, { data: ultimaCargaData }] =
-    await Promise.all([
-      query,
-      supabase.from('eventos').select('*', { count: 'exact', head: true }),
-      supabase.from('uploads').select('uploaded_at').order('uploaded_at', { ascending: false }).limit(1),
-    ])
+    const municipio = searchParams.get('municipio')
+    const programa = searchParams.get('programa')
+    const tipo_evento = searchParams.get('tipo_evento')
+
+    let query = supabase.from('eventos').select('*')
+
+    if (año) query = query.eq('año', parseInt(año))
+    if (municipio) query = query.eq('municipio', municipio)
+    if (programa) query = query.eq('programa', programa)
+    if (tipo_evento) query = query.eq('tipo_evento', tipo_evento)
+
+    ;[{ data, error }, { count: totalSinFiltro }, { data: ultimaCargaData }] =
+      await Promise.all([
+        query,
+        supabase.from('eventos').select('*', { count: 'exact', head: true }),
+        supabase.from('uploads').select('uploaded_at').order('uploaded_at', { ascending: false }).limit(1),
+      ])
+  }
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
