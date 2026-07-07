@@ -25,7 +25,7 @@ export function Hero() {
         <div className="max-w-5xl mx-auto flex items-center justify-center gap-3 flex-wrap">
           <Phone size={14} className="text-emergency shrink-0" strokeWidth={2} />
           <span className="text-sm font-medium text-emergency">
-            Línea Amiga 24/7 — Atención inmediata en crisis
+            ¿Necesita ayuda ahora? La Línea Amiga responde de inmediato, todos los días
           </span>
           <span className="text-white/30 hidden sm:inline">·</span>
           <Link
@@ -54,8 +54,8 @@ export function Hero() {
 
           {/* Subheadline */}
           <p className="text-white/55 font-sans text-base sm:text-lg leading-relaxed mb-12 max-w-xl mx-auto">
-            Servicios especializados en salud mental pública para municipios y
-            departamentos de Antioquia, alineados con el Plan Decenal de Salud
+            Servicios especializados en salud mental pública para los
+            municipios de Antioquia, alineados con el Plan Decenal de Salud
             Pública 2022-2031.
           </p>
 

@@ -51,7 +51,9 @@ export async function GET(req: NextRequest) {
   const top_municipio =
     Object.entries(byMunicipio).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A'
 
-  const currentYear = año ? parseInt(año) : new Date().getFullYear()
+  // Sin filtro de año, comparar el último año con datos (no el año calendario,
+  // que puede no tener registros aún y daría siempre -100%).
+  const currentYear = año ? parseInt(año) : Math.max(...data.map((e) => e.año))
   const currentCasos = data
     .filter((e) => e.año === currentYear)
     .reduce((acc, e) => acc + e.casos, 0)
