@@ -56,7 +56,6 @@ export default function UploadPage() {
         </p>
         <div className="grid grid-cols-2 gap-1">
           {[
-            'departamento',
             'municipio',
             'año',
             'mes',

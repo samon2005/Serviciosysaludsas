@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label'
 interface Props {
   filters: {
     año?: string
-    departamento?: string
+    municipio?: string
     programa?: string
     tipo_evento?: string
   }
@@ -19,6 +19,30 @@ interface Props {
 }
 
 const años = ['2021', '2022', '2023', '2024', '2025']
+
+const municipiosAntioquia = [
+  'Medellín',
+  'Bello',
+  'Itagüí',
+  'Envigado',
+  'Apartadó',
+  'Rionegro',
+  'Turbo',
+  'Caucasia',
+  'Sabaneta',
+  'La Estrella',
+  'Copacabana',
+  'Girardota',
+  'Barbosa',
+  'Caldas',
+  'Marinilla',
+  'La Ceja',
+  'Guarne',
+  'Carmen de Viboral',
+  'Santa Fe de Antioquia',
+  'Urrao',
+]
+
 const programasList = [
   'Prevención Suicida',
   'Salud Mental',
@@ -31,10 +55,10 @@ export function DashboardFilters({ filters, onChange }: Props) {
   return (
     <div className="bg-white rounded-xl p-4 shadow-sm flex flex-wrap gap-4 items-end">
       <div className="min-w-32">
-        <Label className="text-xs text-gray-500 mb-1 block">Año</Label>
+        <Label className="text-xs text-slate-500 mb-1 block">Año</Label>
         <Select
           value={filters.año || 'all'}
-          onValueChange={(v) => onChange('año', !v || !v || v === 'all' ? '' : v)}
+          onValueChange={(v) => onChange('año', !v || v === 'all' ? '' : v)}
         >
           <SelectTrigger className="h-9">
             <SelectValue placeholder="Todos">{filters.año || 'Todos'}</SelectValue>
@@ -50,8 +74,28 @@ export function DashboardFilters({ filters, onChange }: Props) {
         </Select>
       </div>
 
+      <div className="min-w-52">
+        <Label className="text-xs text-slate-500 mb-1 block">Municipio</Label>
+        <Select
+          value={filters.municipio || 'all'}
+          onValueChange={(v) => onChange('municipio', !v || v === 'all' ? '' : v)}
+        >
+          <SelectTrigger className="h-9">
+            <SelectValue placeholder="Todos">{filters.municipio || 'Todos'}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todos</SelectItem>
+            {municipiosAntioquia.map((m) => (
+              <SelectItem key={m} value={m}>
+                {m}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       <div className="min-w-48">
-        <Label className="text-xs text-gray-500 mb-1 block">Programa</Label>
+        <Label className="text-xs text-slate-500 mb-1 block">Programa</Label>
         <Select
           value={filters.programa || 'all'}
           onValueChange={(v) => onChange('programa', !v || v === 'all' ? '' : v)}
@@ -71,7 +115,7 @@ export function DashboardFilters({ filters, onChange }: Props) {
       </div>
 
       <div className="min-w-36">
-        <Label className="text-xs text-gray-500 mb-1 block">Tipo de Evento</Label>
+        <Label className="text-xs text-slate-500 mb-1 block">Tipo de Evento</Label>
         <Select
           value={filters.tipo_evento || 'all'}
           onValueChange={(v) => onChange('tipo_evento', !v || v === 'all' ? '' : v)}

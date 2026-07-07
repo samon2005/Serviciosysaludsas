@@ -1,8 +1,8 @@
 'use client'
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { KPICards } from '@/components/dashboard/kpi-cards'
 import { DashboardFilters } from '@/components/dashboard/filters'
-import { DepartamentoChart } from '@/components/dashboard/departamento-chart'
+import { MunicipioChart } from '@/components/dashboard/municipio-chart'
 import { TemporalChart } from '@/components/dashboard/temporal-chart'
 import { DistribucionCharts } from '@/components/dashboard/distribucion-charts'
 import { DeleteModal } from '@/components/dashboard/delete-modal'
@@ -14,7 +14,7 @@ import { BarChart2, ChevronDown, Download, Trash2, History, FileSpreadsheet, Fil
 
 const emptyKpis: KPIData = {
   total_casos: 0,
-  top_departamento: 'N/A',
+  top_municipio: 'N/A',
   variacion_anual: 0,
   total_registros: 0,
 }
@@ -28,6 +28,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [totalSinFiltro, setTotalSinFiltro] = useState(0)
   const [ultimaCarga, setUltimaCarga] = useState<string | null>(null)
+  const [fetchTrigger, setFetchTrigger] = useState(0)
 
   const [deleteMode, setDeleteMode] = useState<DeleteMode>(null)
   const [historialOpen, setHistorialOpen] = useState(false)
@@ -40,23 +41,30 @@ export default function DashboardPage() {
 
   const hasFilters = Object.values(filters).some(Boolean)
 
-  const fetchData = useCallback(async () => {
-    setLoading(true)
+  useEffect(() => {
+    let cancelled = false
     const params = new URLSearchParams(
       Object.entries(filters).filter(([, v]) => v) as [string, string][]
     )
-    const res = await fetch(`/api/dashboard/stats?${params}`)
-    const json = await res.json()
-    setEventos(json.eventos || [])
-    setKpis(json.kpis || emptyKpis)
-    setTotalSinFiltro(json.total_sin_filtro || 0)
-    setUltimaCarga(json.ultima_carga || null)
-    setLoading(false)
-  }, [filters])
-
-  useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    const abortController = new AbortController()
+    fetch(`/api/dashboard/stats?${params}`, { signal: abortController.signal })
+      .then((res) => res.json())
+      .then((json) => {
+        if (cancelled) return
+        setLoading(false)
+        setEventos(json.eventos || [])
+        setKpis(json.kpis || emptyKpis)
+        setTotalSinFiltro(json.total_sin_filtro || 0)
+        setUltimaCarga(json.ultima_carga || null)
+      })
+      .catch(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => {
+      cancelled = true
+      abortController.abort()
+    }
+  }, [filters, fetchTrigger])
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -71,8 +79,15 @@ export default function DashboardPage() {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
 
-  const handleFilter = (key: string, value: string) =>
+  const handleFilter = (key: string, value: string) => {
+    setLoading(true)
     setFilters((f) => ({ ...f, [key]: value }))
+  }
+
+  const refetch = () => {
+    setLoading(true)
+    setFetchTrigger((n) => n + 1)
+  }
 
   const handleDelete = async () => {
     if (!deleteMode) return
@@ -81,7 +96,7 @@ export default function DashboardPage() {
       : new URLSearchParams()
     await fetch(`/api/dashboard/data?${params}`, { method: 'DELETE' })
     setDeleteMode(null)
-    await fetchData()
+    refetch()
   }
 
   const handleExportXlsx = () => {
@@ -108,7 +123,7 @@ export default function DashboardPage() {
     const imgData = canvas.toDataURL('image/png')
     const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [canvas.width, canvas.height] })
     pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height)
-    pdf.save('dashboard-salud-mental.pdf')
+    pdf.save('dashboard-indicadores-municipales.pdf')
   }
 
   const deleteConfig = deleteMode === 'all'
@@ -128,11 +143,11 @@ export default function DashboardPage() {
       <div ref={dashboardRef} className="space-y-6">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-2xl font-bold" style={{ color: '#1C2833' }}>
-              Panel de Indicadores
+            <h1 className="text-2xl font-bold text-ink">
+              Indicadores Municipales — Antioquia
             </h1>
-            <p className="text-gray-500 text-sm mt-1">
-              Conducta suicida y salud mental — Colombia
+            <p className="text-slate-500 text-sm mt-1">
+              Conducta suicida y salud mental · municipios de Antioquia
             </p>
           </div>
 
@@ -225,7 +240,7 @@ export default function DashboardPage() {
             </div>
 
             <Link href="/dashboard/upload">
-              <Button className="text-white" style={{ backgroundColor: '#1A5276' }}>
+              <Button className="text-white bg-brand hover:bg-brand-action transition-colors">
                 + Cargar Excel
               </Button>
             </Link>
@@ -268,16 +283,16 @@ export default function DashboardPage() {
         ) : eventos.length === 0 ? (
           <div className="bg-white rounded-2xl p-12 text-center shadow-sm">
             <div className="flex justify-center mb-4">
-              <BarChart2 size={48} style={{ color: '#CBD5E0' }} strokeWidth={1} />
+              <BarChart2 size={48} className="text-slate-300" strokeWidth={1} />
             </div>
-            <h2 className="text-xl font-semibold mb-2" style={{ color: '#1C2833' }}>
+            <h2 className="text-xl font-semibold mb-2 text-ink">
               Sin datos aún
             </h2>
             <p className="text-gray-500 mb-6">
               Cargue un archivo Excel para visualizar los indicadores.
             </p>
             <Link href="/dashboard/upload">
-              <Button className="text-white" style={{ backgroundColor: '#1A5276' }}>
+              <Button className="text-white bg-brand hover:bg-brand-action transition-colors">
                 Cargar primer Excel
               </Button>
             </Link>
@@ -286,7 +301,7 @@ export default function DashboardPage() {
           <>
             <KPICards kpis={kpis} />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <DepartamentoChart eventos={eventos} />
+              <MunicipioChart eventos={eventos} />
               <TemporalChart eventos={eventos} />
             </div>
             <DistribucionCharts eventos={eventos} />
@@ -306,7 +321,7 @@ export default function DashboardPage() {
       <HistorialModal
         open={historialOpen}
         onClose={() => setHistorialOpen(false)}
-        onDeleted={fetchData}
+        onDeleted={refetch}
       />
     </>
   )

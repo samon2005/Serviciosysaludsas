@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { DashboardTabs } from '@/components/dashboard/dashboard-tabs'
 
 export default async function DashboardLayout({
   children,
@@ -16,32 +17,34 @@ export default async function DashboardLayout({
   if (!user) redirect('/login')
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F4F6F9' }}>
-      <div className="bg-white border-b shadow-sm">
+    <div className="min-h-screen bg-surface">
+      <div className="bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               href="/dashboard"
-              className="font-semibold text-sm"
-              style={{ color: '#1A5276' }}
+              className="font-semibold text-sm text-brand hover:text-brand-action transition-colors"
             >
               Dashboard
             </Link>
-            <span className="text-gray-300">|</span>
+            <span className="text-slate-200">|</span>
             <Link
               href="/dashboard/upload"
-              className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+              className="text-sm text-slate-500 hover:text-slate-700 transition-colors"
             >
               Cargar Excel
             </Link>
           </div>
           <form action="/api/auth/logout" method="POST">
-            <Button type="submit" variant="ghost" size="sm" className="text-gray-500">
+            <Button type="submit" variant="ghost" size="sm" className="text-slate-500">
               Cerrar sesión
             </Button>
           </form>
         </div>
       </div>
+
+      <DashboardTabs />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">{children}</div>
     </div>
   )

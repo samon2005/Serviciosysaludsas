@@ -15,14 +15,14 @@ export interface Evento {
 
 export interface DashboardFilters {
   año?: string
-  departamento?: string
+  municipio?: string
   programa?: string
   tipo_evento?: string
 }
 
 export interface KPIData {
   total_casos: number
-  top_departamento: string
+  top_municipio: string
   variacion_anual: number
   total_registros: number
 }

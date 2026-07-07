@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
   const rawEventos = rows
     .map((row) => ({
-      departamento: String(row['departamento'] || row['Departamento'] || ''),
+      departamento: String(row['departamento'] || row['Departamento'] || '') || 'Antioquia',
       municipio: String(row['municipio'] || row['Municipio'] || '') || null,
       año: Number(row['año'] || row['Año'] || 0),
       mes: Number(row['mes'] || row['Mes'] || 0) || null,
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       programa: String(row['programa'] || row['Programa'] || '') || null,
       casos: Number(row['casos'] || row['Casos'] || 0),
     }))
-    .filter((e) => e.departamento && e.año > 0)
+    .filter((e) => e.municipio && e.año > 0)
 
   if (rawEventos.length === 0) {
     return NextResponse.json(

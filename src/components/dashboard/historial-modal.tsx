@@ -1,6 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
-import { Button } from '@/components/ui/button'
+import { useState, useEffect } from 'react'
 import { X, Trash2, FileSpreadsheet, Loader2 } from 'lucide-react'
 import { DeleteModal } from './delete-modal'
 
@@ -17,28 +16,40 @@ interface Props {
   onDeleted: () => void
 }
 
+async function loadUploads(): Promise<Upload[]> {
+  const res = await fetch('/api/dashboard/uploads')
+  const json = await res.json()
+  return json.uploads || []
+}
+
 export function HistorialModal({ open, onClose, onDeleted }: Props) {
   const [uploads, setUploads] = useState<Upload[]>([])
   const [loading, setLoading] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<Upload | null>(null)
-
-  const fetchUploads = useCallback(async () => {
-    setLoading(true)
-    const res = await fetch('/api/dashboard/uploads')
-    const json = await res.json()
-    setUploads(json.uploads || [])
-    setLoading(false)
-  }, [])
+  const [reloadTrigger, setReloadTrigger] = useState(0)
 
   useEffect(() => {
-    if (open) fetchUploads()
-  }, [open, fetchUploads])
+    if (!open) return
+    let cancelled = false
+    loadUploads()
+      .then((data) => {
+        if (!cancelled) {
+          setUploads(data)
+          setLoading(false)
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => { cancelled = true }
+  }, [open, reloadTrigger])
 
   const handleDelete = async () => {
     if (!deleteTarget) return
     await fetch(`/api/dashboard/uploads/${deleteTarget.id}`, { method: 'DELETE' })
     setDeleteTarget(null)
-    await fetchUploads()
+    setLoading(true)
+    setReloadTrigger((n) => n + 1)
     onDeleted()
   }
 
@@ -72,7 +83,7 @@ export function HistorialModal({ open, onClose, onDeleted }: Props) {
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                        <FileSpreadsheet size={15} style={{ color: '#1A5276' }} />
+                        <FileSpreadsheet size={15} className="text-brand" />
                       </div>
                       <div>
                         <p className="text-sm font-medium text-gray-800 truncate max-w-56">
