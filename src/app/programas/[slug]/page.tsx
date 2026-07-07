@@ -1,6 +1,7 @@
 import { programas } from '@/lib/programas-data'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { Reveal } from '@/components/reveal'
 import type { Metadata } from 'next'
 
 interface Props {
@@ -29,129 +30,194 @@ export default async function ProgramaDetailPage({ params }: Props) {
   const isLinea = programa.flagship && programa.slug === 'linea-24-7'
 
   return (
-    <main>
+    <main className="bg-surface min-h-screen">
       {/* Header */}
-      <section className={isLinea ? 'bg-ink py-16 md:py-20' : 'bg-brand py-14 md:py-18'}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link
-            href="/programas"
-            className="font-sans text-sm text-white/60 hover:text-white/90 mb-6 inline-block transition-colors"
-          >
-            ← Todos los servicios
-          </Link>
+      {isLinea ? (
+        /* Línea 24/7 — dark sheet with rounded container */
+        <section className="bg-surface-dark py-20 md:py-24">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              href="/programas"
+              className="text-sm text-white/50 hover:text-white/80 mb-8 inline-block transition-colors"
+            >
+              ← Todos los servicios
+            </Link>
 
-          {isLinea && (
-            <span className="block mb-3 inline-block bg-emergency/15 text-emergency text-xs font-sans font-semibold uppercase tracking-widest px-3 py-1 rounded-sm">
-              Servicio insignia · Prevención del suicidio
-            </span>
-          )}
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-emergency/15 text-emergency">
+                Servicio insignia · Prevención del suicidio
+              </span>
 
-          <h1 className="font-heading text-4xl md:text-5xl text-white leading-tight">
-            {programa.title}
-          </h1>
-          <p className="mt-4 font-sans text-white/75 text-lg max-w-2xl leading-relaxed">
-            {programa.description}
-          </p>
-
-          {/* Emergency phone for Línea 24/7 */}
-          {isLinea && programa.telefono && (
-            <div className="mt-8 inline-flex items-center gap-4 bg-white/5 border border-white/10 rounded-lg px-6 py-4">
-              <div>
-                <p className="font-sans text-xs text-white/50 font-semibold uppercase tracking-widest mb-0.5">
-                  Línea de atención — 24 horas, 7 días
-                </p>
-                <p className="font-heading text-3xl text-emergency leading-none">
+              {/* Emergency phone chip */}
+              {programa.telefono && (
+                <span className="inline-flex items-center gap-2 bg-emergency text-white font-bold text-sm rounded-full px-4 py-1.5 tracking-tight">
+                  <span className="w-2 h-2 rounded-full bg-white animate-pulse shrink-0" />
                   {programa.telefono}
-                </p>
-              </div>
+                </span>
+              )}
             </div>
-          )}
-        </div>
-      </section>
 
-      {/* Body */}
-      <section className="bg-surface py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-10">
+            <h1 className="font-extrabold tracking-tighter text-4xl md:text-5xl text-white leading-tight mb-4">
+              {programa.title}
+            </h1>
+            <p className="text-slate-400 text-lg max-w-[65ch] leading-relaxed">
+              {programa.description}
+            </p>
 
-            {/* Main content — 2/3 */}
-            <div className="md:col-span-2 space-y-10">
-
-              {/* Objetivo */}
-              <div>
-                <h2 className="font-heading text-2xl text-ink mb-4">Objetivo</h2>
-                <p className="font-sans text-slate-700 text-base leading-relaxed">
-                  {programa.objetivo}
+            {/* 4-step ruta strip — numbered chips with connectors */}
+            {isLinea && (
+              <div className="mt-12 bg-white/5 border border-white/10 rounded-[1.5rem] p-6 md:p-8">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-6">
+                  Ruta de atención en crisis suicida
                 </p>
-              </div>
-
-              {/* Descripción */}
-              <div>
-                <h2 className="font-heading text-2xl text-ink mb-4">
-                  {isLinea ? 'Cómo funciona' : 'Descripción'}
-                </h2>
-                <p className="font-sans text-slate-600 text-base leading-relaxed">
-                  {programa.longDescription}
-                </p>
-              </div>
-
-              {/* Actividades */}
-              <div>
-                <h2 className="font-heading text-2xl text-ink mb-4">Actividades</h2>
-                <ol className="space-y-4">
-                  {programa.actividades.map((a, i) => (
-                    <li key={a} className="flex items-start gap-4">
-                      <span
-                        className={`font-sans font-bold text-sm w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
-                          isLinea
-                            ? 'bg-emergency/10 text-emergency'
-                            : 'bg-brand/10 text-brand'
-                        }`}
-                      >
-                        {i + 1}
+                <ol className="grid sm:grid-cols-4 gap-0 relative">
+                  {[
+                    { n: '1', label: 'Contacto', desc: 'La persona llama o escribe. La línea responde de inmediato.' },
+                    { n: '2', label: 'Escucha activa', desc: 'El profesional evalúa el nivel de riesgo y contiene la crisis.' },
+                    { n: '3', label: 'Canalización', desc: 'Se orienta y acompaña hacia los recursos adecuados.' },
+                    { n: '4', label: 'Activación de ruta', desc: 'Si el riesgo es alto, se activa la red territorial de emergencia.' },
+                  ].map((s, i, arr) => (
+                    <li key={s.n} className="flex flex-col relative pr-4">
+                      {/* Connector line */}
+                      {i < arr.length - 1 && (
+                        <span className="hidden sm:block absolute top-4 left-[2.5rem] right-0 h-px bg-white/10" />
+                      )}
+                      <span className="relative z-10 w-8 h-8 rounded-full bg-emergency/20 border border-emergency/30 text-emergency font-bold text-sm flex items-center justify-center mb-3 shrink-0">
+                        {s.n}
                       </span>
-                      <span className="font-sans text-slate-700 text-sm leading-relaxed pt-1">
-                        {a}
-                      </span>
+                      <strong className="text-white font-semibold text-sm mb-1">{s.label}</strong>
+                      <span className="text-white/45 text-xs leading-relaxed">{s.desc}</span>
                     </li>
                   ))}
                 </ol>
               </div>
+            )}
+          </div>
+        </section>
+      ) : (
+        /* Standard service — light header */
+        <section className="bg-surface border-b border-slate-100 py-20 md:py-24">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              href="/programas"
+              className="text-sm text-slate-400 hover:text-slate-700 mb-8 inline-block transition-colors"
+            >
+              ← Todos los servicios
+            </Link>
+            <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-brand/8 text-brand mb-5">
+              Servicio estratégico
+            </span>
+            <h1 className="font-extrabold tracking-tighter text-4xl md:text-5xl text-ink leading-tight mb-4">
+              {programa.title}
+            </h1>
+            <p className="text-slate-600 text-lg max-w-[65ch] leading-relaxed">
+              {programa.objetivo}
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* Body */}
+      <section className={isLinea ? 'bg-surface py-16 md:py-20' : 'py-16 md:py-20'}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-3 gap-12">
+
+            {/* Main content — 2/3 */}
+            <div className="md:col-span-2 space-y-12">
+
+              {/* Objetivo — as lede (only for non-linea; linea shows it in header) */}
+              {!isLinea && (
+                <Reveal>
+                  <div>
+                    <span className="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.2em] bg-brand/8 text-brand mb-4">
+                      Objetivo
+                    </span>
+                    <p className="text-slate-700 text-base leading-relaxed max-w-[65ch]">
+                      {programa.objetivo}
+                    </p>
+                  </div>
+                </Reveal>
+              )}
+
+              {/* Descripción */}
+              <Reveal delay={isLinea ? 0 : 100}>
+                <div>
+                  <h2 className="font-bold tracking-tight text-2xl text-ink mb-4">
+                    {isLinea ? 'Cómo funciona' : 'Descripción'}
+                  </h2>
+                  <p className="text-slate-600 text-base leading-relaxed max-w-[65ch]">
+                    {programa.longDescription}
+                  </p>
+                </div>
+              </Reveal>
+
+              {/* Actividades — numbered timeline */}
+              <Reveal delay={isLinea ? 100 : 200}>
+                <div>
+                  <h2 className="font-bold tracking-tight text-2xl text-ink mb-6">
+                    Actividades
+                  </h2>
+                  <ol className="space-y-5">
+                    {programa.actividades.map((a, i) => (
+                      <li key={a} className="flex items-start gap-4">
+                        {/* Brand number chip */}
+                        <span
+                          className={`font-bold text-sm w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
+                            isLinea
+                              ? 'bg-emergency/10 text-emergency border border-emergency/20'
+                              : 'bg-brand/8 text-brand border border-brand/15'
+                          }`}
+                        >
+                          {i + 1}
+                        </span>
+                        <span className="text-slate-700 text-sm leading-relaxed pt-1.5">
+                          {a}
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </Reveal>
             </div>
 
             {/* Sidebar — 1/3 */}
-            <aside className="space-y-6">
+            <aside className="space-y-5">
               {/* Población */}
-              <div className="bg-white border border-slate-200 rounded-lg p-6">
-                <h3 className="font-heading text-lg text-ink mb-3">
-                  Población objetivo
-                </h3>
-                <p className="font-sans text-slate-500 text-sm leading-relaxed">
-                  {programa.poblacion}
-                </p>
-              </div>
+              <Reveal delay={150}>
+                <div className="bg-white rounded-[1.5rem] shadow-diffusion ring-1 ring-slate-900/5 p-6">
+                  <h3 className="font-bold tracking-tight text-base text-ink mb-3">
+                    Población objetivo
+                  </h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">
+                    {programa.poblacion}
+                  </p>
+                </div>
+              </Reveal>
 
               {/* Contact / CTA */}
-              <div className="bg-brand rounded-lg p-6 text-white">
-                <h3 className="font-heading text-lg mb-2">
-                  ¿Le interesa este servicio?
-                </h3>
-                <p className="font-sans text-white/70 text-sm mb-4 leading-relaxed">
-                  Comuníquese con nuestro equipo para coordinar una intervención
-                  o solicitar información técnica.
-                </p>
-                <Link
-                  href="/contacto"
-                  className="block text-center bg-white text-brand font-sans font-semibold text-sm px-5 py-3 rounded hover:bg-slate-100 transition-colors"
-                >
-                  Solicitar información
-                </Link>
-              </div>
+              <Reveal delay={200}>
+                <div className={`rounded-[1.5rem] p-6 text-white ${isLinea ? 'bg-emergency' : 'bg-brand'}`}>
+                  <h3 className="font-bold tracking-tight text-base mb-2">
+                    ¿Le interesa este servicio?
+                  </h3>
+                  <p className="text-white/70 text-sm mb-5 leading-relaxed">
+                    Comuníquese con nuestro equipo para coordinar una intervención
+                    o solicitar información técnica.
+                  </p>
+                  <Link
+                    href="/contacto"
+                    className="block text-center bg-white font-bold text-sm px-5 py-3 rounded-[1rem] hover:-translate-y-0.5 transition-transform"
+                    style={{ color: isLinea ? '#C0392B' : '#0C4A6E' }}
+                  >
+                    Solicitar información
+                  </Link>
+                </div>
+              </Reveal>
 
               {/* Back link */}
               <Link
                 href="/programas"
-                className="font-sans text-sm text-brand-action hover:underline block"
+                className="text-sm text-brand-action hover:text-brand block pt-1"
               >
                 ← Ver todos los servicios
               </Link>
@@ -160,31 +226,6 @@ export default async function ProgramaDetailPage({ params }: Props) {
           </div>
         </div>
       </section>
-
-      {/* Línea 24/7 only: How-it-works strip */}
-      {isLinea && (
-        <section className="bg-ink py-12">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-heading text-2xl text-white mb-8">
-              Ruta de atención en crisis suicida
-            </h2>
-            <ol className="grid sm:grid-cols-4 gap-6">
-              {[
-                { n: '1', label: 'Contacto', desc: 'La persona llama o escribe. La línea responde de inmediato.' },
-                { n: '2', label: 'Escucha activa', desc: 'El profesional evalúa el nivel de riesgo y contiene la crisis.' },
-                { n: '3', label: 'Canalización', desc: 'Se orienta y acompaña hacia los recursos adecuados.' },
-                { n: '4', label: 'Activación de ruta', desc: 'Si el riesgo es alto, se activa la red territorial de emergencia.' },
-              ].map((s) => (
-                <li key={s.n} className="flex flex-col">
-                  <span className="font-heading text-4xl text-emergency mb-3">{s.n}</span>
-                  <strong className="font-sans font-semibold text-white text-sm mb-1">{s.label}</strong>
-                  <span className="font-sans text-white/55 text-sm leading-relaxed">{s.desc}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-      )}
     </main>
   )
 }

@@ -4,15 +4,15 @@ import { Phone } from 'lucide-react'
 
 export function Footer() {
   return (
-    <footer className="bg-surface-dark text-white mt-auto font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-10">
+    <footer className="bg-surface-dark text-white mt-auto font-sans rounded-t-[2.5rem] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-16 pb-10">
 
-        {/* Main content — 3 zones */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-white/10">
+        {/* Main grid — 3 zones */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-white/[0.08]">
 
           {/* Zone 1 — Identity */}
           <div className="md:col-span-1">
-            <div className="mb-5 inline-block bg-white rounded-lg overflow-hidden h-16 w-44 flex-shrink-0">
+            <div className="mb-6 inline-block bg-white/[0.06] ring-1 ring-white/10 rounded-2xl overflow-hidden h-16 w-44 flex-shrink-0">
               <Image
                 src="/590417596_17846916483605348_3563196473665147198_n.jpeg"
                 alt="Servicios y Salud S.A.S."
@@ -21,34 +21,35 @@ export function Footer() {
                 className="h-[175px] w-auto -mt-[52px] -ml-[14px]"
               />
             </div>
-            <p className="text-sm leading-relaxed text-white/55 mb-3">
+            <p className="text-sm leading-relaxed text-white/55 mb-4 max-w-xs">
               Empresa de salud pública territorial especializada en prevención
               del suicidio, intervención psicosocial e inteligencia territorial.
             </p>
-            <p className="text-xs text-white/35">NIT 901.XXX.XXX-X</p>
+            <p className="text-xs text-white/30 tracking-wide">NIT 901.XXX.XXX-X</p>
           </div>
 
           {/* Zone 2 — Línea 24/7 + Contact */}
           <div className="md:col-span-1">
-            <h2 className="text-xs font-semibold tracking-widest uppercase text-white/35 mb-5">
+            <p className="text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-white/35 mb-5">
               Línea Amiga 24/7
-            </h2>
-            <div className="mb-5">
+            </p>
+            <div className="mb-7">
               <a
                 href="tel:6044442424"
-                className="flex items-center gap-2 text-emergency font-semibold text-lg hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded"
+                className="inline-flex items-center gap-2.5 text-emergency font-semibold text-xl hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded"
               >
-                <Phone size={18} aria-hidden="true" />
+                <Phone size={18} strokeWidth={1.5} aria-hidden="true" />
                 (604) 444 24 24
               </a>
-              <p className="text-xs text-white/45 mt-1">
+              <p className="text-xs text-white/40 mt-2 leading-relaxed">
                 Atención inmediata en crisis · todos los días · 24 horas
               </p>
             </div>
-            <h2 className="text-xs font-semibold tracking-widest uppercase text-white/35 mb-3 mt-6">
+
+            <p className="text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-white/35 mb-4">
               Contacto
-            </h2>
-            <ul className="space-y-2 text-sm text-white/55">
+            </p>
+            <ul className="space-y-2.5 text-sm text-white/55">
               <li>Colombia — cobertura nacional</li>
               <li>
                 <a
@@ -73,10 +74,10 @@ export function Footer() {
 
           {/* Zone 3 — Legal */}
           <div className="md:col-span-1">
-            <h2 className="text-xs font-semibold tracking-widest uppercase text-white/35 mb-5">
+            <p className="text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-white/35 mb-5">
               Legal
-            </h2>
-            <ul className="space-y-2.5 text-sm">
+            </p>
+            <ul className="space-y-3 text-sm">
               <li>
                 <Link
                   href="/privacidad"
@@ -98,11 +99,11 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-7 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/30">
+        <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-white/25">
           <p>
             &copy; {new Date().getFullYear()} Servicios y Salud S.A.S. Todos los derechos reservados.
           </p>
-          <p className="text-center sm:text-right">
+          <p className="text-right leading-relaxed">
             PDSP 2022-2031 · Ley 1616 de 2013 · Política Nacional de Salud Mental 2018
           </p>
         </div>
