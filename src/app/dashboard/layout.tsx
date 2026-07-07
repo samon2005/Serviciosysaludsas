@@ -1,5 +1,3 @@
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { DashboardTabs } from '@/components/dashboard/dashboard-tabs'
@@ -9,12 +7,9 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) redirect('/login')
+  // TEMPORAL: dashboard público mientras el cliente lo revisa.
+  // Para reactivar la protección, restaurar el chequeo de sesión con
+  // createClient() + supabase.auth.getUser() y redirect('/login').
 
   return (
     <div className="min-h-screen bg-surface">
