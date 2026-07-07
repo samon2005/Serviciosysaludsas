@@ -23,15 +23,12 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  // Refresca la sesión si existe (mantiene cookies válidas).
+  await supabase.auth.getUser()
 
-  if (!user && request.nextUrl.pathname.startsWith('/dashboard')) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
-  }
+  // TEMPORAL: el dashboard es público mientras el cliente lo revisa.
+  // Para reactivar la protección, restaurar el redirect a /login cuando
+  // no haya usuario autenticado.
 
   return supabaseResponse
 }

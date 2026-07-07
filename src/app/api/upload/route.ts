@@ -5,10 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+  // TEMPORAL: dashboard público — sin chequeo de sesión mientras el cliente revisa.
 
   const formData = await req.formData()
   const file = formData.get('file') as File | null

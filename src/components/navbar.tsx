@@ -47,28 +47,32 @@ export function Navbar() {
       <div className="bg-surface-dark text-white pointer-events-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Desktop */}
-          <div className="hidden sm:flex items-center justify-between h-9 text-xs font-sans">
-            <span className="text-white/70 tracking-wide">
+          <div className="hidden sm:flex items-center justify-between h-10 text-sm font-sans">
+            <span className="text-white/90 font-medium">
               Línea Amiga 24/7 — Atención inmediata en crisis
             </span>
             <a
               href="tel:6044442424"
-              className="flex items-center gap-1.5 text-emergency font-semibold hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-1 focus-visible:ring-offset-surface-dark rounded"
+              className="flex items-center gap-2 text-white font-bold tracking-wide hover:text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-1 focus-visible:ring-offset-surface-dark rounded"
             >
-              <Phone size={12} strokeWidth={1.5} aria-hidden="true" />
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emergency">
+                <Phone size={11} strokeWidth={2} aria-hidden="true" className="text-white" />
+              </span>
               (604) 444 24 24
             </a>
           </div>
           {/* Mobile */}
-          <div className="sm:hidden flex items-center justify-center gap-2 h-9 text-xs font-sans">
-            <Phone size={11} strokeWidth={1.5} className="text-emergency" aria-hidden="true" />
+          <div className="sm:hidden flex items-center justify-center gap-2 h-10 text-sm font-sans">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emergency">
+              <Phone size={11} strokeWidth={2} className="text-white" aria-hidden="true" />
+            </span>
             <a
               href="tel:6044442424"
-              className="text-emergency font-semibold hover:text-white transition-colors"
+              className="text-white font-bold tracking-wide hover:text-white/80 transition-colors"
             >
               (604) 444 24 24
             </a>
-            <span className="text-white/50">· Línea 24/7</span>
+            <span className="text-white/70">· Línea 24/7</span>
           </div>
         </div>
       </div>
