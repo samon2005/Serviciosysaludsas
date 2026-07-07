@@ -75,7 +75,7 @@ export default function UploadPage() {
           ))}
         </div>
         <a
-          href="/samples/datos-ejemplo.xlsx"
+          href="/samples/eventos-municipios-antioquia.xlsx"
           download
           className="text-xs mt-3 inline-block hover:underline"
           style={{ color: '#2980B9' }}
