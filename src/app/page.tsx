@@ -99,12 +99,12 @@ export default function HomePage() {
 
             {/* Imagen + garantías */}
             <div className="overflow-hidden rounded-[1.5rem] shadow-diffusion ring-1 ring-slate-900/5 bg-white">
-              <div className="relative h-52">
+              <div className="relative h-56 sm:h-52">
                 <Image
                   src="/images/acompanamiento-linea.jpg"
                   alt="Profesional de salud mental tomando notas durante una sesión de acompañamiento"
                   fill
-                  sizes="(min-width: 1024px) 45vw, 90vw"
+                  sizes="(min-width: 1024px) 45vw, 100vw"
                   className="object-cover"
                 />
               </div>

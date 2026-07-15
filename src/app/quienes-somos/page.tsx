@@ -49,18 +49,18 @@ export default function QuienesSomosPage() {
       {/* Header — editorial intro con imagen diagonal */}
       <section className="relative bg-brand overflow-hidden">
         {/* Imagen con corte diagonal, lado derecho */}
-        <div
-          className="absolute inset-y-0 right-0 w-1/2 hidden lg:block"
-          style={{ clipPath: 'polygon(18% 0, 100% 0, 100% 100%, 0 100%)' }}
-        >
+        <div className="absolute inset-0 lg:inset-y-0 lg:left-auto lg:right-0 lg:w-1/2 lg:[clip-path:polygon(18%_0,100%_0,100%_100%,0_100%)]">
           <Image
             src="/images/equipo-quienes-somos.jpg"
             alt="Manos de un equipo de trabajo unidas sobre una mesa con documentos de análisis"
             fill
-            sizes="50vw"
+            priority
+            sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-brand/40" />
+          {/* En móvil la foto queda detrás del texto: el velo sube a /85 para
+              mantener el párrafo text-white/75 sobre 4.5:1 (AA). */}
+          <div className="absolute inset-0 bg-brand/85 lg:bg-brand/40" />
         </div>
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">

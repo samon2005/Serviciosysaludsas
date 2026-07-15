@@ -12,13 +12,13 @@ export function Footer() {
 
           {/* Zone 1 — Identity */}
           <div className="md:col-span-1">
-            <div className="mb-6 inline-block bg-white/[0.06] ring-1 ring-white/10 rounded-2xl overflow-hidden h-16 w-44 flex-shrink-0">
+            <div className="mb-6 inline-flex items-center bg-white ring-1 ring-white/10 rounded-2xl px-4 py-3">
               <Image
-                src="/590417596_17846916483605348_3563196473665147198_n.jpeg"
+                src="/logo.svg"
                 alt="Servicios y Salud S.A.S."
-                width={175}
-                height={175}
-                className="h-[175px] w-auto -mt-[52px] -ml-[14px]"
+                width={142}
+                height={34}
+                className="h-9 w-auto"
               />
             </div>
             <p className="text-sm leading-relaxed text-white/55 mb-4 max-w-xs">

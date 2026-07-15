@@ -80,17 +80,14 @@ export function Hero() {
           </div>
 
           {/* ── RIGHT COLUMN: imagen con corte diagonal + tarjeta teléfono ── */}
-          <div className="relative hidden sm:block">
-            <div
-              className="relative h-[26rem] lg:h-[32rem] overflow-hidden rounded-[2rem] shadow-diffusion-lg"
-              style={{ clipPath: 'polygon(14% 0, 100% 0, 100% 100%, 0 100%)' }}
-            >
+          <div className="relative">
+            <div className="relative h-64 sm:h-[26rem] lg:h-[32rem] overflow-hidden rounded-2xl sm:rounded-[2rem] shadow-diffusion-lg sm:[clip-path:polygon(14%_0,100%_0,100%_100%,0_100%)]">
               <Image
                 src="/images/comunidad-hero.jpg"
                 alt="Grupo de personas chocando las manos en un entorno natural, transmitiendo apoyo y comunidad"
                 fill
                 priority
-                sizes="(min-width: 1024px) 45vw, 90vw"
+                sizes="(min-width: 1024px) 45vw, 100vw"
                 className="object-cover"
               />
               {/* Velo sutil para integrar la foto con la paleta */}
@@ -98,7 +95,7 @@ export function Hero() {
             </div>
 
             {/* Tarjeta teléfono — flotando sobre la imagen */}
-            <div className="absolute -bottom-5 left-0 lg:-left-6 bg-brand rounded-[1.5rem] shadow-diffusion-lg px-7 py-5 flex items-center gap-5 hover:-translate-y-1 transition-transform duration-500">
+            <div className="absolute -bottom-5 left-0 lg:-left-6 bg-brand rounded-[1.5rem] shadow-diffusion-lg px-7 py-5 hidden sm:flex items-center gap-5 hover:-translate-y-1 transition-transform duration-500">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15">
                 <Phone size={20} className="text-white" strokeWidth={1.5} />
               </div>
