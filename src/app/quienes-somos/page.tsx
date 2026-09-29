@@ -17,7 +17,7 @@ const valores = [
 ]
 
 const proyectosLiderados = [
-  'Línea Amiga 24/7',
+  'Línea de Atención 24/7',
   'Proyecto de Vida (mitigación SPA)',
   'Centros de Escucha',
   'Diplomado en Atención Integral a la Primera Infancia',

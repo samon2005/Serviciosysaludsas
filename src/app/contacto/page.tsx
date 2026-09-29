@@ -160,7 +160,7 @@ export default function ContactoPage() {
                 </span>
               </div>
               <p className="text-white/50 text-xs leading-relaxed">
-                Línea Amiga 24/7 — Atención en crisis. Disponible las 24 horas, los 7 días de la semana.
+                Línea de Atención 24/7 — Atención en crisis. Disponible las 24 horas, los 7 días de la semana.
               </p>
             </div>
 

@@ -20,12 +20,12 @@ export interface Programa {
 export const programas: Programa[] = [
   {
     slug: 'linea-24-7',
-    title: 'Línea Amiga 24/7',
-    shortTitle: 'Línea Amiga 24/7',
+    title: 'Línea de Atención 24/7',
+    shortTitle: 'Línea de Atención 24/7',
     description:
       'Atención inmediata y permanente para la prevención del suicidio y la gestión de crisis emocionales.',
     longDescription:
-      'La Línea Amiga 24/7 es el servicio insignia de Servicios & Salud S.A.S. Ofrece atención telefónica y virtual ininterrumpida orientada a reducir las conductas autolesivas y prevenir suicidios consumados. Cada llamada activa un protocolo estandarizado de escucha activa, orientación y canalización inmediata, con capacidad de activar la Ruta de Atención en Crisis Suicida cuando el riesgo lo requiere. Los registros generados alimentan el sistema de alertas tempranas territoriales de la PIPST.',
+      'La Línea de Atención 24/7 es el servicio insignia de Servicios & Salud S.A.S. Ofrece atención telefónica y virtual ininterrumpida orientada a reducir las conductas autolesivas y prevenir suicidios consumados. Cada llamada activa un protocolo estandarizado de escucha activa, orientación y canalización inmediata, con capacidad de activar la Ruta de Atención en Crisis Suicida cuando el riesgo lo requiere. Los registros generados alimentan el sistema de alertas tempranas territoriales de la PIPST.',
     objetivo:
       'Reducir las conductas autolesivas y prevenir suicidios consumados mediante atención inmediata, permanente y articulada con la red territorial de emergencia.',
     actividades: [

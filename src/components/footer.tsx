@@ -12,13 +12,13 @@ export function Footer() {
 
           {/* Zone 1 — Identity */}
           <div className="md:col-span-1">
-            <div className="mb-6 inline-flex items-center bg-white ring-1 ring-white/10 rounded-2xl px-4 py-3">
+            <div className="mb-6 inline-flex items-center">
               <Image
-                src="/logo.svg"
+                src="/logo-blanco.svg"
                 alt="Servicios y Salud S.A.S."
-                width={142}
-                height={34}
-                className="h-9 w-auto"
+                width={545}
+                height={140}
+                className="h-12 w-auto"
               />
             </div>
             <p className="text-sm leading-relaxed text-white/55 mb-4 max-w-xs">
@@ -31,7 +31,7 @@ export function Footer() {
           {/* Zone 2 — Línea 24/7 + Contact */}
           <div className="md:col-span-1">
             <p className="text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-white/35 mb-5">
-              Línea Amiga 24/7
+              Línea de Atención 24/7
             </p>
             <div className="mb-7">
               <a

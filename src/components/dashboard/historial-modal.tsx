@@ -8,6 +8,8 @@ interface Upload {
   filename: string
   rows_imported: number
   uploaded_at: string
+  municipio?: string | null
+  año?: number | null
 }
 
 interface Props {
@@ -92,6 +94,7 @@ export function HistorialModal({ open, onClose, onDeleted, uploadsEndpoint = '/a
                           {u.filename}
                         </p>
                         <p className="text-xs text-gray-400">
+                          {u.municipio ? `${u.municipio}${u.año ? ` ${u.año}` : ''} · ` : ''}
                           {u.rows_imported.toLocaleString('es-CO')} registros ·{' '}
                           {new Date(u.uploaded_at).toLocaleDateString('es-CO', {
                             day: 'numeric',

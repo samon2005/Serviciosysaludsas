@@ -49,7 +49,7 @@ export function Navbar() {
           {/* Desktop */}
           <div className="hidden sm:flex items-center justify-between h-10 text-sm font-sans">
             <span className="text-white/90 font-medium">
-              Línea Amiga 24/7 — Atención inmediata en crisis
+              Línea de Atención 24/7 — Atención inmediata en crisis
             </span>
             <a
               href="tel:6044442424"
@@ -92,10 +92,10 @@ export function Navbar() {
             <Image
               src="/logo.svg"
               alt="Servicios y Salud S.A.S."
-              width={140}
-              height={34}
+              width={545}
+              height={140}
               priority
-              className="h-9 w-auto pl-2"
+              className="h-10 w-auto pl-2 sm:h-11"
             />
           </Link>
 

@@ -27,33 +27,31 @@ export interface KPIData {
   total_registros: number
 }
 
-export interface AtencionLinea {
-  id: string
-  fecha: string
-  hora: string | null
-  canal: string
-  sexo: string | null
-  grupo_etario: string | null
-  municipio: string | null
-  motivo: string | null
-  nivel_riesgo: string | null
-  ruta_activada: boolean
-  canalizado_a: string | null
-  estado_seguimiento: string | null
-  upload_id: string | null
-  created_at: string
-}
+export type LineaDimension =
+  | 'llamadas'
+  | 'edad'
+  | 'riesgo'
+  | 'genero'
+  | 'zona'
+  | 'eps'
+  | 'ruta'
+  | 'poblacion'
+  | 'hipotesis'
 
-export interface LineaKPIData {
-  total_atenciones: number
-  pct_riesgo_alto: number
-  rutas_activadas: number
-  canalizaciones: number
+/** Una celda del Excel mensual de la Línea 24/7 (formato largo). */
+export interface IndicadorLinea {
+  municipio: string
+  año: number
+  mes: number
+  dimension: LineaDimension
+  categoria: string
+  /** Solo hipótesis: nombre completo del diagnóstico */
+  detalle?: string | null
+  valor: number
 }
 
 export interface LineaFilters {
   año?: string
   municipio?: string
-  nivel_riesgo?: string
-  canal?: string
+  mes?: string
 }

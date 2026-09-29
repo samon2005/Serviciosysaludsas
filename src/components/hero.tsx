@@ -33,7 +33,7 @@ export function Hero() {
                   <Phone size={13} className="text-emergency" strokeWidth={1.5} />
                 </span>
                 <span className="text-sm font-medium text-slate-700 font-sans">
-                  ¿Necesita ayuda ahora? La Línea Amiga responde de inmediato
+                  ¿Necesita ayuda ahora? La Línea de Atención 24/7 responde de inmediato
                 </span>
                 <Link
                   href="/programas/linea-24-7"
@@ -64,7 +64,7 @@ export function Hero() {
             <div className="flex flex-col sm:flex-row gap-3">
               <Link href="/programas/linea-24-7" className="group">
                 <span className="inline-flex items-center gap-3 rounded-full bg-emergency text-white px-8 py-4 text-base font-semibold font-sans hover:bg-emergency/90 transition-colors duration-300">
-                  Conozca la Línea Amiga 24/7
+                  Conozca la Línea de Atención 24/7
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:translate-x-0.5">
                     <ArrowRight size={16} strokeWidth={1.5} />
                   </span>
@@ -101,7 +101,7 @@ export function Hero() {
               </div>
               <div className="flex flex-col gap-0.5">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60 font-sans">
-                  Línea Amiga 24/7
+                  Línea de Atención 24/7
                 </span>
                 <a
                   href="tel:6044442424"

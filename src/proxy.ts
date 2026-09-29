@@ -1,7 +1,11 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { isDemoMode } from '@/lib/demo-mode'
 
 export async function proxy(request: NextRequest) {
+  // Sin credenciales de Supabase (modo demostración / desarrollo local) no hay sesión que refrescar.
+  if (isDemoMode()) return NextResponse.next({ request })
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(

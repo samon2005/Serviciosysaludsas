@@ -5,7 +5,7 @@ import { Reveal } from '@/components/reveal'
 const servicios = [
   {
     slug: 'linea-24-7',
-    title: 'Línea Amiga 24/7',
+    title: 'Línea de Atención 24/7',
     description:
       'Atención telefónica y virtual permanente en crisis suicida y emergencias psicosociales. Escucha activa, orientación, activación de la Ruta de Atención en Crisis Suicida y registro estandarizado para alertas tempranas.',
     featured: true,

@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import { programas } from '@/lib/programas-data'
 import { Reveal } from '@/components/reveal'
+import { LineaCifrasPublico } from '@/components/linea/linea-cifras-publico'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Servicios — Servicios & Salud S.A.S.',
   description:
-    'Línea Amiga 24/7, Proyecto de Vida, Centros de Escucha, PIPST y CTP: los cinco servicios de Servicios & Salud S.A.S. para la salud mental territorial.',
+    'Línea de Atención 24/7, Proyecto de Vida, Centros de Escucha, PIPST y CTP: los cinco servicios de Servicios & Salud S.A.S. para la salud mental territorial.',
 }
 
 export default function ProgramasPage() {
@@ -107,6 +108,9 @@ export default function ProgramasPage() {
           </div>
         </section>
       )}
+
+      {/* Línea en cifras — datos públicos por municipio */}
+      <LineaCifrasPublico />
 
       {/* Remaining services — alternating offset rows */}
       <section className="pb-24">

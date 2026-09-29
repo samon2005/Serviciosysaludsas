@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Phone, ArrowRight, CheckCircle } from 'lucide-react'
 
 /* ──────────────────────────────────────────────
-   Sección 2: Línea Amiga 24/7 — los 4 pasos
+   Sección 2: Línea de Atención 24/7 — los 4 pasos
 ────────────────────────────────────────────── */
 const pasos = [
   {
@@ -65,7 +65,7 @@ export default function HomePage() {
       {/* 1. Hero */}
       <Hero />
 
-      {/* 2. Línea Amiga 24/7 — sección destacada */}
+      {/* 2. Línea de Atención 24/7 — sección destacada */}
       <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -75,21 +75,21 @@ export default function HomePage() {
               <div className="inline-flex items-center gap-2 bg-emergency/8 border border-emergency/20 rounded-full px-4 py-1.5 mb-6">
                 <Phone size={13} className="text-emergency" strokeWidth={1.5} />
                 <span className="text-xs font-semibold text-emergency font-sans">
-                  Línea Amiga 24/7
+                  Línea de Atención 24/7
                 </span>
               </div>
               <h2 className="font-heading text-4xl md:text-5xl text-ink font-bold leading-tight tracking-tighter text-balance mb-6">
                 Atención permanente en crisis suicida y emergencias psicosociales
               </h2>
               <p className="text-slate-500 font-sans text-lg leading-relaxed mb-9">
-                La Línea Amiga 24/7 es el servicio insignia de Servicios &amp; Salud S.A.S.
+                La Línea de Atención 24/7 es el servicio insignia de Servicios &amp; Salud S.A.S.
                 Su objetivo es reducir las conductas autolesivas y los suicidios consumados
                 en los municipios de Antioquia mediante atención especializada sin
                 interrupción.
               </p>
               <Link href="/programas/linea-24-7" className="group">
                 <span className="inline-flex items-center gap-3 rounded-full bg-emergency text-white px-7 py-3.5 text-sm font-semibold font-sans hover:bg-emergency/90 transition-colors duration-300">
-                  Conozca la Línea Amiga 24/7
+                  Conozca la Línea de Atención 24/7
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:translate-x-0.5">
                     <ArrowRight size={13} strokeWidth={1.5} />
                   </span>

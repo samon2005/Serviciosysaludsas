@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { isDemoMode, demoUploadLinea } from '@/lib/demo-mode'
 
@@ -7,7 +7,7 @@ export async function GET() {
     return NextResponse.json({ uploads: [demoUploadLinea] })
   }
 
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { data, error } = await supabase
     .from('uploads_linea')

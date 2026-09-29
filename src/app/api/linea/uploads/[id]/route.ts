@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import { isDemoMode, DEMO_MESSAGE } from '@/lib/demo-mode'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -10,7 +10,7 @@ export async function DELETE(
     return NextResponse.json({ error: DEMO_MESSAGE }, { status: 403 })
   }
 
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { id } = await params
 
   const { error } = await supabase.from('uploads_linea').delete().eq('id', id)

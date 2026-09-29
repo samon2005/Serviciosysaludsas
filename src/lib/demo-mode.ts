@@ -1,6 +1,6 @@
-import type { Evento, AtencionLinea } from '@/lib/types'
+import type { Evento, IndicadorLinea } from '@/lib/types'
 import eventosJson from '@/lib/demo-data/eventos.json'
-import atencionesJson from '@/lib/demo-data/atenciones.json'
+import indicadoresJson from '@/lib/demo-data/linea-indicadores.json'
 
 /**
  * MODO DEMOSTRACIÓN (temporal)
@@ -27,7 +27,7 @@ export const DEMO_MESSAGE =
   'Modo demostración: la carga y eliminación de datos estará disponible cuando se conecte la base de datos.'
 
 export const demoEventos = eventosJson as Evento[]
-export const demoAtenciones = atencionesJson as AtencionLinea[]
+export const demoIndicadoresLinea = indicadoresJson as IndicadorLinea[]
 
 export const demoUploadEventos = {
   id: 'demo-eventos',
@@ -38,9 +38,11 @@ export const demoUploadEventos = {
 
 export const demoUploadLinea = {
   id: 'demo-linea',
-  filename: 'atenciones-linea-24-7.xlsx',
-  rows_imported: demoAtenciones.length,
-  uploaded_at: '2026-07-07T12:00:00Z',
+  filename: 'ANALISIS DE DATOS MENSUALES.xlsx',
+  rows_imported: demoIndicadoresLinea.length,
+  uploaded_at: '2026-09-29T12:00:00Z',
+  municipio: 'La Estrella',
+  año: 2026,
 }
 
 export function filterEventos(params: URLSearchParams): Evento[] {
@@ -54,19 +56,5 @@ export function filterEventos(params: URLSearchParams): Evento[] {
       (!municipio || e.municipio === municipio) &&
       (!programa || e.programa === programa) &&
       (!tipo_evento || e.tipo_evento === tipo_evento)
-  )
-}
-
-export function filterAtenciones(params: URLSearchParams): AtencionLinea[] {
-  const año = params.get('año')
-  const municipio = params.get('municipio')
-  const nivel_riesgo = params.get('nivel_riesgo')
-  const canal = params.get('canal')
-  return demoAtenciones.filter(
-    (a) =>
-      (!año || a.fecha.startsWith(año)) &&
-      (!municipio || a.municipio === municipio) &&
-      (!nivel_riesgo || a.nivel_riesgo === nivel_riesgo) &&
-      (!canal || a.canal === canal)
   )
 }

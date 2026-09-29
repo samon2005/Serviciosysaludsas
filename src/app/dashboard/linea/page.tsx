@@ -5,24 +5,16 @@ import { LineaFilters } from '@/components/dashboard/linea/linea-filters'
 import { LineaCharts } from '@/components/dashboard/linea/linea-charts'
 import { DeleteModal } from '@/components/dashboard/delete-modal'
 import { HistorialModal } from '@/components/dashboard/historial-modal'
-import type { AtencionLinea, LineaKPIData } from '@/lib/types'
+import type { LineaResumen } from '@/lib/linea-aggregate'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Phone, ChevronDown, Download, Trash2, History, FileSpreadsheet, FileText } from 'lucide-react'
-
-const emptyKpis: LineaKPIData = {
-  total_atenciones: 0,
-  pct_riesgo_alto: 0,
-  rutas_activadas: 0,
-  canalizaciones: 0,
-}
 
 type DeleteMode = 'all' | 'filtered' | null
 
 export default function LineaDashboardPage() {
   const [filters, setFilters] = useState<Record<string, string>>({})
-  const [atenciones, setAtenciones] = useState<AtencionLinea[]>([])
-  const [kpis, setKpis] = useState<LineaKPIData>(emptyKpis)
+  const [resumen, setResumen] = useState<LineaResumen | null>(null)
   const [loading, setLoading] = useState(true)
   const [totalSinFiltro, setTotalSinFiltro] = useState(0)
   const [ultimaCarga, setUltimaCarga] = useState<string | null>(null)
@@ -50,9 +42,8 @@ export default function LineaDashboardPage() {
       .then((json) => {
         if (cancelled) return
         setLoading(false)
-        setAtenciones(json.atenciones || [])
-        setKpis(json.kpis || emptyKpis)
-        setTotalSinFiltro(json.total_sin_filtro || 0)
+        setResumen(json.resumen || null)
+        setTotalSinFiltro(json.total_registros || 0)
         setUltimaCarga(json.ultima_carga || null)
       })
       .catch(() => {
@@ -135,7 +126,7 @@ export default function LineaDashboardPage() {
       : {
           title: '¿Eliminar registros filtrados?',
           descripcion: 'Se borrarán los registros que coinciden con los filtros activos.',
-          registros: atenciones.length,
+          registros: resumen?.total_llamadas ?? 0,
         }
 
   return (
@@ -144,10 +135,10 @@ export default function LineaDashboardPage() {
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
             <h1 className="text-2xl font-bold text-ink">
-              Línea Amiga 24/7 — Indicadores
+              Línea de Atención 24/7 — Indicadores
             </h1>
             <p className="text-slate-500 text-sm mt-1">
-              Atenciones de la línea de crisis · Antioquia
+              Indicadores mensuales de la línea de crisis · Antioquia
             </p>
           </div>
 
@@ -247,20 +238,24 @@ export default function LineaDashboardPage() {
           </div>
         </div>
 
-        <LineaFilters filters={filters} onChange={handleFilter} />
+        {resumen && (
+          <LineaFilters
+            filters={filters}
+            onChange={handleFilter}
+            municipios={resumen.municipios}
+            años={resumen.años}
+            meses={resumen.meses}
+          />
+        )}
 
-        {/* Contador + última carga */}
-        {!loading && totalSinFiltro > 0 && (
+        {/* Periodo + última carga */}
+        {!loading && resumen && !resumen.vacio && (
           <p className="text-xs text-gray-400 -mt-2">
-            Mostrando{' '}
+            Datos de{' '}
             <span className="font-medium text-gray-600">
-              {atenciones.length.toLocaleString('es-CO')}
+              {filters.municipio || 'todos los municipios'}
             </span>{' '}
-            de{' '}
-            <span className="font-medium text-gray-600">
-              {totalSinFiltro.toLocaleString('es-CO')}
-            </span>{' '}
-            registros
+            · {resumen.periodo}
             {ultimaCarga && (
               <>
                 {' '}·{' '}Última carga:{' '}
@@ -276,30 +271,48 @@ export default function LineaDashboardPage() {
           </p>
         )}
 
-        {loading ? (
+        {loading && !resumen ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-gray-400 text-sm">Cargando datos...</div>
           </div>
-        ) : atenciones.length === 0 ? (
+        ) : !resumen || resumen.vacio ? (
           <div className="bg-white rounded-2xl p-12 text-center shadow-sm">
             <div className="flex justify-center mb-4">
               <Phone size={48} className="text-slate-300" strokeWidth={1} />
             </div>
-            <h2 className="text-xl font-semibold mb-2 text-ink">Sin datos aún</h2>
+            <h2 className="text-xl font-semibold mb-2 text-ink">
+              {totalSinFiltro > 0 ? 'Sin datos para esta selección' : 'Sin datos aún'}
+            </h2>
             <p className="text-gray-500 mb-6">
-              Cargue un archivo Excel con registros de atenciones para visualizar los indicadores.
+              {totalSinFiltro > 0
+                ? 'Pruebe con otro municipio o año, o limpie los filtros.'
+                : 'Cargue el Excel mensual de la línea para visualizar los indicadores.'}
             </p>
-            <Link href="/dashboard/linea/upload">
-              <Button className="text-white bg-brand hover:bg-brand-action transition-colors">
-                Cargar primer Excel
+            {totalSinFiltro > 0 ? (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setLoading(true)
+                  setFilters({})
+                }}
+              >
+                Limpiar filtros
               </Button>
-            </Link>
+            ) : (
+              <Link href="/dashboard/linea/upload">
+                <Button className="text-white bg-brand hover:bg-brand-action transition-colors">
+                  Cargar primer Excel
+                </Button>
+              </Link>
+            )}
           </div>
         ) : (
-          <>
-            <LineaKPICards kpis={kpis} />
-            <LineaCharts atenciones={atenciones} />
-          </>
+          <div className={loading ? 'opacity-60 transition-opacity' : 'transition-opacity'}>
+            <div className="space-y-4">
+              <LineaKPICards r={resumen} />
+              <LineaCharts r={resumen} />
+            </div>
+          </div>
         )}
       </div>
 
