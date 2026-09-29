@@ -31,6 +31,8 @@ import {
 
 interface Props {
   r: LineaResumen
+  /** 'resumen' omite población diferencial y las tablas detalladas */
+  variante?: 'completo' | 'resumen'
 }
 
 const EJE = { fontSize: 11, fill: '#64748B' }
@@ -121,6 +123,7 @@ function TablaHipotesis({ r }: { r: LineaResumen }) {
   const [q, setQ] = useState('')
   const [grupo, setGrupo] = useState('')
   const [verTodo, setVerTodo] = useState(false)
+  const [abierta, setAbierta] = useState<string | null>(null)
 
   const filas = useMemo(() => {
     const t = q.trim().toLowerCase()
@@ -133,21 +136,23 @@ function TablaHipotesis({ r }: { r: LineaResumen }) {
       )
   }, [r.hipotesis, q, grupo])
 
-  const visibles = verTodo || q || grupo ? filas : filas.slice(0, 15)
-  const max = Math.max(1, ...r.hipotesis.flatMap((h) => h.porMes))
+  const buscando = Boolean(q || grupo)
+  const visibles = verTodo || buscando ? filas : filas.slice(0, 10)
+  const max = Math.max(1, ...r.hipotesis.map((h) => h.total))
+  const maxMes = Math.max(1, ...r.hipotesis.flatMap((h) => h.porMes))
 
   return (
     <ChartCard
-      titulo="Hipótesis clasificatoria — todos los motivos de consulta"
-      subtitulo={`Acumulado ${r.periodo} · ${fmt(r.hipotesisTotal)} hipótesis registradas en ${r.hipotesis.length} categorías`}
+      titulo="Todos los motivos de consulta"
+      subtitulo={`${r.hipotesis.length} categorías · haga clic en una fila para ver el detalle por mes`}
     >
-      <div className="mb-3 flex flex-wrap gap-2">
-        <div className="relative min-w-56 flex-1">
+      <div className="mb-4 flex flex-wrap gap-2">
+        <div className="relative min-w-52 flex-1">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Buscar por código o nombre…"
+            placeholder="Buscar motivo o código…"
             className="h-9 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 text-sm outline-none transition focus:border-brand-action focus:ring-2 focus:ring-brand-action/20"
           />
         </div>
@@ -165,73 +170,76 @@ function TablaHipotesis({ r }: { r: LineaResumen }) {
         </select>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-slate-200">
-        <table className="w-full min-w-[760px] text-sm">
-          <thead className="bg-slate-50 text-left text-[11px] uppercase tracking-wide text-slate-500">
-            <tr>
-              <th className="px-3 py-2.5 font-semibold">#</th>
-              <th className="px-3 py-2.5 font-semibold">Código</th>
-              <th className="px-3 py-2.5 font-semibold">Hipótesis</th>
-              <th className="px-3 py-2.5 font-semibold">Grupo</th>
-              {r.meses.map((m) => (
-                <th key={m} className="px-1.5 py-2.5 text-center font-semibold">
-                  {MESES_CORTO[m - 1]}
-                </th>
-              ))}
-              <th className="px-3 py-2.5 text-right font-semibold">Total</th>
-              <th className="px-3 py-2.5 text-right font-semibold">%</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {visibles.map(({ h, rank }) => (
-              <tr key={h.key} className="hover:bg-slate-50/70">
-                <td className="px-3 py-2 tabular-nums text-slate-400">{rank}</td>
-                <td className="whitespace-nowrap px-3 py-2 font-mono text-xs text-brand-action">{h.codigo}</td>
-                <td className="px-3 py-2 text-slate-800">{h.nombre}</td>
-                <td className="px-3 py-2 text-xs text-slate-500">{h.grupo}</td>
-                {r.meses.map((m) => {
-                  const v = h.porMes[m - 1]
-                  return (
-                    <td key={m} className="px-1 py-1.5 text-center">
-                      <span
-                        className="inline-flex h-6 min-w-6 items-center justify-center rounded-md px-1 text-[11px] tabular-nums"
-                        style={{
-                          background: v ? `rgba(3,105,161,${0.08 + (v / max) * 0.5})` : 'transparent',
-                          color: v ? (v / max > 0.55 ? '#fff' : '#0C4A6E') : '#CBD5E1',
-                        }}
-                      >
-                        {v || '·'}
-                      </span>
-                    </td>
-                  )
-                })}
-                <td className="px-3 py-2 text-right font-semibold tabular-nums text-ink">{fmt(h.total)}</td>
-                <td className="px-3 py-2 text-right tabular-nums text-slate-500">{fmtPct(h.pct)}</td>
-              </tr>
-            ))}
-            {visibles.length === 0 && (
-              <tr>
-                <td colSpan={7 + r.meses.length} className="px-3 py-8 text-center text-slate-400">
-                  Ninguna hipótesis coincide con la búsqueda.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <ul className="divide-y divide-slate-100">
+        {visibles.map(({ h, rank }) => {
+          const open = abierta === h.key
+          return (
+            <li key={h.key}>
+              <button
+                onClick={() => setAbierta(open ? null : h.key)}
+                aria-expanded={open}
+                className="flex w-full items-center gap-4 rounded-lg px-2 py-3 text-left transition hover:bg-slate-50"
+              >
+                <span className="w-6 flex-none text-center text-xs tabular-nums text-slate-400">{rank}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-medium leading-snug text-slate-800">{h.nombre}</span>
+                  <span className="mt-0.5 block text-xs text-slate-400">
+                    {h.grupo} · <span className="font-mono">{h.codigo}</span>
+                  </span>
+                </span>
+                <span className="hidden w-40 flex-none sm:block">
+                  <span className="block h-1.5 overflow-hidden rounded-full bg-slate-100">
+                    <span
+                      className="block h-full rounded-full bg-brand-action"
+                      style={{ width: `${Math.max((h.total / max) * 100, 3)}%` }}
+                    />
+                  </span>
+                </span>
+                <span className="w-20 flex-none text-right">
+                  <span className="block text-sm font-semibold tabular-nums text-ink">{fmt(h.total)}</span>
+                  <span className="block text-[11px] tabular-nums text-slate-400">{fmtPct(h.pct)}</span>
+                </span>
+              </button>
+              {open && (
+                <div className="mb-3 ml-12 mr-2 grid grid-cols-4 gap-2 rounded-xl bg-slate-50 p-3 sm:grid-cols-8">
+                  {r.meses.map((m) => {
+                    const v = h.porMes[m - 1]
+                    return (
+                      <div key={m} className="text-center">
+                        <div className="text-[10px] uppercase text-slate-400">{MESES_CORTO[m - 1]}</div>
+                        <div
+                          className="mx-auto mt-1 flex h-7 w-9 items-center justify-center rounded-md text-xs font-semibold tabular-nums"
+                          style={{
+                            background: v ? `rgba(3,105,161,${0.1 + (v / maxMes) * 0.6})` : '#EEF2F6',
+                            color: v ? (v / maxMes > 0.5 ? '#fff' : '#0C4A6E') : '#CBD5E1',
+                          }}
+                        >
+                          {v || '–'}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </li>
+          )
+        })}
+        {visibles.length === 0 && (
+          <li className="py-8 text-center text-sm text-slate-400">Ningún motivo coincide con la búsqueda.</li>
+        )}
+      </ul>
 
-      {!q && !grupo && filas.length > 15 && (
+      {!buscando && filas.length > 10 && (
         <button
           onClick={() => setVerTodo((v) => !v)}
-          className="mt-3 text-sm font-medium text-brand-action hover:underline"
+          className="mt-3 w-full rounded-lg border border-slate-200 py-2 text-sm font-medium text-brand-action transition hover:bg-slate-50"
         >
-          {verTodo ? 'Ver solo las 15 principales' : `Ver las ${filas.length} categorías`}
+          {verTodo ? 'Mostrar solo los 10 principales' : `Ver los ${filas.length - 10} motivos restantes`}
         </button>
       )}
       {r.sinHipotesis > 0 && (
-        <p className="mt-3 text-xs text-slate-500">
-          {fmt(r.sinHipotesis)} llamadas del periodo no tienen hipótesis clasificatoria registrada. Los códigos repetidos
-          en el Excel (por ejemplo «Z 630» y «Z63.0») se unifican automáticamente.
+        <p className="mt-3 text-xs text-slate-400">
+          {fmt(r.sinHipotesis)} llamadas del periodo no tienen hipótesis registrada.
         </p>
       )}
     </ChartCard>
@@ -240,7 +248,8 @@ function TablaHipotesis({ r }: { r: LineaResumen }) {
 
 // ---------- gráficos ----------
 
-export function LineaCharts({ r }: Props) {
+export function LineaCharts({ r, variante = 'completo' }: Props) {
+  const completo = variante === 'completo'
   const riesgoColor = (p: Parte) => RIESGO_COLOR[p.name] ?? PALETA.gris
   const generoColor = (p: Parte) =>
     p.name === 'Mujer' ? PALETA.brand : p.name === 'Hombre' ? PALETA.medio : PALETA.gris
@@ -254,13 +263,6 @@ export function LineaCharts({ r }: Props) {
       ? [{ name: 'Otras', value: epsResto, pct: Math.round((epsResto / epsTotal) * 1000) / 10 }]
       : []),
   ]
-
-  const top10 = r.hipotesis.slice(0, 10).map((h) => ({
-    name: h.nombre,
-    sub: `${h.codigo} · ${h.grupo}`,
-    value: h.total,
-    pct: h.pct,
-  }))
 
   const totalRiesgo = r.riesgo.reduce((a, x) => a + x.value, 0)
   const totalGenero = r.genero.reduce((a, x) => a + x.value, 0)
@@ -373,7 +375,7 @@ export function LineaCharts({ r }: Props) {
         </ChartCard>
       </div>
 
-      {/* Fila 4: población diferencial */}
+      {completo && (
       <ChartCard
         titulo="Población diferencial y prioritaria"
         subtitulo={
@@ -389,27 +391,20 @@ export function LineaCharts({ r }: Props) {
         )}
       </ChartCard>
 
-      {/* Fila 5: hipótesis */}
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-5">
-        <ChartCard
-          titulo="Motivos de consulta por grupo"
-          subtitulo="Hipótesis agrupadas por tema"
-          className="xl:col-span-2"
-        >
-          <ListaRanking items={r.gruposHipotesis} numerar={false} />
-        </ChartCard>
-        <ChartCard
-          titulo="Top 10 hipótesis clasificatorias"
-          subtitulo={`Por qué consulta más la gente · acumulado ${r.periodo}`}
-          className="xl:col-span-3"
-        >
-          <ListaRanking items={top10} color={PALETA.brand} />
-        </ChartCard>
-      </div>
+      )}
 
-      <TablaHipotesis r={r} />
+      {/* Fila 5: motivos por grupo */}
+      <ChartCard titulo="¿Por qué consultan?" subtitulo={`Motivos agrupados por tema · ${r.periodo}`}>
+        <div className="grid gap-x-12 gap-y-3 md:grid-cols-2">
+          <ListaRanking items={r.gruposHipotesis.slice(0, Math.ceil(r.gruposHipotesis.length / 2))} numerar={false} />
+          <ListaRanking items={r.gruposHipotesis.slice(Math.ceil(r.gruposHipotesis.length / 2))} numerar={false} />
+        </div>
+      </ChartCard>
+
+      {completo && <TablaHipotesis r={r} />}
 
       {/* Tabla mensual */}
+      {completo && (
       <ChartCard titulo="Resumen mensual" subtitulo="Llamadas, clasificación de riesgo y rutas de atención por mes">
         <div className="overflow-x-auto rounded-xl border border-slate-200">
           <table className="w-full min-w-[560px] text-sm">
@@ -448,6 +443,7 @@ export function LineaCharts({ r }: Props) {
           </table>
         </div>
       </ChartCard>
+      )}
     </div>
   )
 }

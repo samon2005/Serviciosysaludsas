@@ -24,7 +24,7 @@ export default async function DashboardLayout({
             </Link>
             <span className="text-slate-200">|</span>
             <Link
-              href="/dashboard/upload"
+              href="/dashboard/linea/upload"
               className="text-sm text-slate-500 hover:text-slate-700 transition-colors"
             >
               Cargar Excel
