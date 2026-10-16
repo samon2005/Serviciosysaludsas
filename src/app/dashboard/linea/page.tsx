@@ -16,6 +16,7 @@ export default function LineaDashboardPage() {
   const [filters, setFilters] = useState<Record<string, string>>({})
   const [resumen, setResumen] = useState<LineaResumen | null>(null)
   const [loading, setLoading] = useState(true)
+  const [errorDatos, setErrorDatos] = useState('')
   const [totalSinFiltro, setTotalSinFiltro] = useState(0)
   const [ultimaCarga, setUltimaCarga] = useState<string | null>(null)
   const [fetchTrigger, setFetchTrigger] = useState(0)
@@ -42,12 +43,16 @@ export default function LineaDashboardPage() {
       .then((json) => {
         if (cancelled) return
         setLoading(false)
+        setErrorDatos(json.error || '')
         setResumen(json.resumen || null)
         setTotalSinFiltro(json.total_registros || 0)
         setUltimaCarga(json.ultima_carga || null)
       })
       .catch(() => {
-        if (!cancelled) setLoading(false)
+        if (!cancelled) {
+          setLoading(false)
+          setErrorDatos('No se pudo contactar al servidor.')
+        }
       })
     return () => {
       cancelled = true
@@ -274,6 +279,13 @@ export default function LineaDashboardPage() {
         {loading && !resumen ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-gray-400 text-sm">Cargando datos...</div>
+          </div>
+        ) : errorDatos ? (
+          <div className="rounded-2xl border border-red-100 bg-red-50 p-8 text-center">
+            <h2 className="mb-2 text-lg font-semibold text-red-700">No se pudieron cargar los datos</h2>
+            <p className="text-sm text-red-600">
+              No hay conexión con la base de datos ({errorDatos}). Verifique que el proyecto de Supabase esté activo.
+            </p>
           </div>
         ) : !resumen || resumen.vacio ? (
           <div className="bg-white rounded-2xl p-12 text-center shadow-sm">

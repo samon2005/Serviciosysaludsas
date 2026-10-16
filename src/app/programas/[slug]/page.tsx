@@ -2,7 +2,6 @@ import { programas } from '@/lib/programas-data'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Reveal } from '@/components/reveal'
-import { LineaCifrasPublico } from '@/components/linea/linea-cifras-publico'
 import type { Metadata } from 'next'
 
 interface Props {
@@ -117,8 +116,6 @@ export default async function ProgramaDetailPage({ params }: Props) {
           </div>
         </section>
       )}
-
-      {isLinea && <LineaCifrasPublico />}
 
       {/* Body */}
       <section className={isLinea ? 'bg-surface py-16 md:py-20' : 'py-16 md:py-20'}>

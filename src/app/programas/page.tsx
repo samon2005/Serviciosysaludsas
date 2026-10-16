@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { programas } from '@/lib/programas-data'
 import { Reveal } from '@/components/reveal'
-import { LineaCifrasPublico } from '@/components/linea/linea-cifras-publico'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -108,9 +107,6 @@ export default function ProgramasPage() {
           </div>
         </section>
       )}
-
-      {/* Línea en cifras — datos públicos por municipio */}
-      <LineaCifrasPublico />
 
       {/* Remaining services — alternating offset rows */}
       <section className="pb-24">

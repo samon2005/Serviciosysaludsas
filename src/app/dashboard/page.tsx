@@ -16,6 +16,7 @@ export default function IndicadoresMunicipalesPage() {
   const [resumen, setResumen] = useState<LineaResumen | null>(null)
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [errorDatos, setErrorDatos] = useState('')
 
   useEffect(() => {
     let cancelado = false
@@ -25,6 +26,7 @@ export default function IndicadoresMunicipalesPage() {
       .then((json) => {
         if (cancelado) return
         const r: LineaResumen | undefined = json.resumen
+        setErrorDatos(json.error || '')
         // Si La Estrella aún no tiene datos, mostrar el primer municipio disponible
         if (r?.vacio && filters.municipio === MUNICIPIO_INICIAL && r.municipios.length > 0 && !r.municipios.includes(MUNICIPIO_INICIAL)) {
           setFilters({ municipio: r.municipios[0] })
@@ -34,7 +36,11 @@ export default function IndicadoresMunicipalesPage() {
         setTotal(json.total_registros || 0)
         setLoading(false)
       })
-      .catch(() => !cancelado && setLoading(false))
+      .catch(() => {
+        if (cancelado) return
+        setErrorDatos('No se pudo contactar al servidor.')
+        setLoading(false)
+      })
     return () => {
       cancelado = true
     }
@@ -79,6 +85,13 @@ export default function IndicadoresMunicipalesPage() {
 
       {loading && !resumen ? (
         <div className="flex h-64 items-center justify-center text-sm text-gray-400">Cargando datos...</div>
+      ) : errorDatos ? (
+        <div className="rounded-2xl border border-red-100 bg-red-50 p-8 text-center">
+          <h2 className="mb-2 text-lg font-semibold text-red-700">No se pudieron cargar los datos</h2>
+          <p className="text-sm text-red-600">
+            No hay conexión con la base de datos ({errorDatos}). Verifique que el proyecto de Supabase esté activo.
+          </p>
+        </div>
       ) : !resumen || resumen.vacio ? (
         <div className="rounded-2xl bg-white p-12 text-center shadow-sm">
           <h2 className="mb-2 text-xl font-semibold text-ink">
